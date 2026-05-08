@@ -44,9 +44,9 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="py-24 md:py-40 bg-background px-4 relative overflow-hidden">
+    <section id="faq" className="py-24 md:py-40 bg-gradient-to-b from-slate-50 to-white px-4 relative overflow-hidden">
        {/* Background accent */}
-       <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/10 to-transparent pointer-events-none" />
+       <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
@@ -56,10 +56,10 @@ export function FAQSection() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-tight">
-            Veelgestelde <span className="text-primary text-glow">Vragen</span>
+          <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
+            Veelgestelde <span className="text-primary">Vragen</span>
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground font-sans max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-500 font-sans max-w-2xl mx-auto leading-relaxed">
             Alles wat u moet weten over onze werkwijze en expertise.
           </p>
         </motion.div>
@@ -69,21 +69,21 @@ export function FAQSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="glass rounded-[40px] p-2 border-white/5 overflow-hidden"
+          className="bg-white rounded-[40px] p-2 border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden"
         >
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="border-b border-white/5 last:border-0 px-8"
+                className="border-b border-slate-100 last:border-0 px-8"
               >
                 <AccordionTrigger className="py-8 hover:text-primary transition-all text-left hover:no-underline group">
-                  <span className="text-lg md:text-xl font-display font-medium text-white group-hover:text-primary group-data-[state=open]:text-primary transition-colors">
+                  <span className="text-lg md:text-xl font-display font-medium text-slate-900 group-hover:text-primary group-data-[state=open]:text-primary transition-colors">
                     {faq.question}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-8 leading-relaxed font-sans text-base md:text-lg">
+                <AccordionContent className="text-slate-600 pb-8 leading-relaxed font-sans text-base md:text-lg">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -96,7 +96,7 @@ export function FAQSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="mt-16 p-10 glass rounded-[40px] text-center border-primary/20 relative group overflow-hidden"
+          className="mt-16 p-10 bg-white border border-primary/10 rounded-[40px] text-center relative group overflow-hidden shadow-lg"
         >
           <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           
@@ -104,9 +104,9 @@ export function FAQSection() {
             <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
               <MessageCircle className="text-primary" size={32} />
             </div>
-            <h3 className="text-2xl font-display font-bold text-white mb-2">Nog vragen?</h3>
-            <p className="text-muted-foreground mb-8 max-w-sm mx-auto">We helpen graag om uw project tot een succes te maken.</p>
-            <button className="px-10 py-4 bg-primary text-primary-foreground rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.5)] transition-all duration-300">
+            <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">Nog vragen?</h3>
+            <p className="text-slate-500 mb-8 max-w-sm mx-auto">We helpen graag om uw project tot een succes te maken.</p>
+            <button className="px-10 py-4 bg-primary text-white rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.4)] transition-all duration-300">
               Contacteer ons
             </button>
           </div>

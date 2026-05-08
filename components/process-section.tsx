@@ -58,9 +58,9 @@ const itemVariants = {
 
 export function ProcessSection() {
   return (
-    <section id="process" className="py-24 md:py-40 bg-background px-4 relative">
+    <section id="process" className="py-24 md:py-40 bg-slate-50 px-4 relative">
        {/* Background accent */}
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none" />
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -70,10 +70,10 @@ export function ProcessSection() {
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-tight">
-            Onze <span className="text-secondary text-glow">Werkwijze</span>
+          <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
+            Onze <span className="text-primary">Werkwijze</span>
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-sans leading-relaxed">
             Van concept tot realisatie: een gestroomlijnd proces gericht op snelheid en kwaliteit.
           </p>
         </motion.div>
@@ -98,8 +98,8 @@ export function ProcessSection() {
                 className="relative group"
               >
                 {/* Badge with number */}
-                <div className="relative flex items-center justify-center w-14 h-14 glass rounded-full font-display font-bold text-lg mb-8 z-10 group-hover:border-primary/50 transition-all duration-500 shadow-[0_0_20px_rgba(0,242,255,0.1)]">
-                  <span className="text-white group-hover:text-primary transition-colors">
+                <div className="relative flex items-center justify-center w-14 h-14 bg-white border border-slate-200 rounded-full font-display font-bold text-lg mb-8 z-10 group-hover:border-primary/50 transition-all duration-500 shadow-sm">
+                  <span className="text-slate-900 group-hover:text-primary transition-colors">
                     {step.number}
                   </span>
                   
@@ -108,15 +108,15 @@ export function ProcessSection() {
                 </div>
 
                 {/* Card-like content */}
-                <div className={`p-8 glass rounded-3xl border-l-2 ${step.color} hover:bg-white/[0.03] transition-colors duration-500`}>
-                  <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-secondary/30 transition-colors">
-                    <Icon size={28} className="text-secondary" />
+                <div className={`p-8 bg-white rounded-3xl border border-slate-100 border-l-4 ${step.color} hover:shadow-xl hover:shadow-primary/5 transition-all duration-500`}>
+                  <div className="mb-6 inline-block p-4 rounded-2xl bg-slate-50 border border-slate-100 group-hover:border-primary/30 transition-colors">
+                    <Icon size={28} className="text-primary" />
                   </div>
 
-                  <h3 className="text-2xl font-display font-bold text-white mb-4 tracking-tight">
+                  <h3 className="text-2xl font-display font-bold text-slate-900 mb-4 tracking-tight">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed font-sans">
+                  <p className="text-slate-600 leading-relaxed font-sans">
                     {step.description}
                   </p>
                 </div>

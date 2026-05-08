@@ -23,22 +23,22 @@ const usps = [
 
 export function USPSection() {
   return (
-    <section className="py-24 md:py-40 bg-background px-4 relative overflow-hidden">
+    <section className="py-24 md:py-40 bg-gradient-to-b from-white to-slate-50 px-4 relative overflow-hidden">
       {/* Background Decorative Element */}
-      <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-tight">
-            Waarom <span className="text-primary text-glow">VIESA Automations</span>?
+          <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
+            Waarom <span className="text-primary">VIESA Automations</span>?
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-sans leading-relaxed">
             Wij onderscheiden ons door een unieke combinatie van technische expertise, snelheid en integriteit.
           </p>
         </motion.div>
@@ -55,11 +55,11 @@ export function USPSection() {
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="p-10 glass glass-hover rounded-[40px] group transition-all duration-500 border-white/5"
+                className="p-10 bg-white border border-slate-100 rounded-[40px] group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10"
               >
                 {/* Icon */}
-                <div className="mb-8 inline-block p-5 bg-primary/10 rounded-2xl group-hover:bg-primary/20 transition-all duration-500 border border-primary/20">
-                  <Icon size={32} className="text-primary" />
+                <div className="mb-8 inline-block p-5 bg-slate-50 rounded-2xl group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-sm border border-slate-100 group-hover:border-primary">
+                  <Icon size={32} className="text-primary group-hover:text-white transition-colors" />
                 </div>
 
                 {/* Title */}
@@ -68,13 +68,13 @@ export function USPSection() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-muted-foreground leading-relaxed font-sans">
+                <p className="text-slate-600 leading-relaxed font-sans">
                   {usp.description}
                 </p>
 
                 {/* Bottom Decor */}
-                <div className="mt-8 pt-8 border-t border-white/5 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">Premium Standard</span>
+                <div className="mt-8 pt-8 border-t border-slate-100 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">Premium Standard</span>
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 </div>
               </motion.div>
