@@ -8,10 +8,10 @@ Modern, enterprise-grade landing page for Dutch IT Automation company. Emphasis 
 ## Design System
 
 ### Color Palette (3 Colors + Neutrals)
-- **Primary**: Deep Midnight Blue (#0f172a) - backgrounds, text
-- **Secondary**: Slate Gray (#64748b) - secondary text, borders
-- **Accent**: Electric Cyan (#00d9ff) - CTAs, hover states, highlights
-- **Neutrals**: White (#ffffff), Off-white (#f8fafc), Black (#000000)
+- **Primary**: VIESA Teal (#0F5373) - brand color from logo, accents, CTAs
+- **Secondary**: Deep Slate (#1a2332) - backgrounds, cards, secondary elements
+- **Accent**: Light Cyan (#00d9ff) - highlights, hover states, secondary CTAs
+- **Neutrals**: White (#ffffff), Off-white (#f8fafc), Dark Gray (#334155)
 
 ### Typography
 - **Font Family**: Inter (Google Fonts)
@@ -21,12 +21,13 @@ Modern, enterprise-grade landing page for Dutch IT Automation company. Emphasis 
 
 ### Design Tokens (globals.css + tailwind.config.ts)
 ```
---background: #0f172a (midnight blue)
+--background: #1a2332 (deep slate)
 --foreground: #ffffff (white)
---card: #1e293b (slightly lighter blue)
---accent: #00d9ff (cyan)
---muted: #64748b (slate gray)
---border: #334155 (dark slate)
+--card: #0f1419 (darker slate for contrast)
+--primary: #0F5373 (VIESA teal - from logo)
+--accent: #00d9ff (light cyan for highlights)
+--muted: #334155 (slate gray)
+--border: #2d3e52 (subtle dark border)
 ```
 
 ---
@@ -59,8 +60,8 @@ components/
 - **Layout**: Flexbox, sticky top, z-50
 - **Background**: Transparent initially, with optional scroll-triggered backdrop blur
 - **Content**:
-  - Left: Logo (text-based "VIESA" in cyan accent)
-  - Right: "Contact" CTA button (cyan background, black text)
+  - Left: Logo image (`/viesa-logo.png` 48px) + text "VIESA" in VIESA teal
+  - Right: "Contact" CTA button (VIESA teal background, white text)
 - **Responsive**: Hamburger menu on mobile (simple, no drawer for now)
 
 ### 2. Hero Section
@@ -70,9 +71,9 @@ components/
   - H1 (72px): "Uw Bedrijf op Autopiloot met VIESA"
   - Subtitle (18px, slate gray): "Van high-end websites tot complexe CRM-systemen: wij automatiseren uw groei van A tot Z."
   - Dual CTAs (side-by-side on desktop, stacked on mobile):
-    - "Start Project" (Cyan bg, black text, px-8 py-4)
-    - "Onze Diensten" (Cyan border, cyan text, px-8 py-4)
-- **Visual**: Subtle background gradient (midnight → slightly lighter blue at bottom)
+    - "Start Project" (VIESA teal bg, white text, px-8 py-4)
+    - "Onze Diensten" (VIESA teal border, VIESA teal text, px-8 py-4)
+- **Visual**: Subtle background gradient (deep slate → slightly lighter at bottom)
 
 ### 3. Trust Section (Marquee)
 - **Layout**: Flex, overflow-hidden, py-20
@@ -84,11 +85,11 @@ components/
 ### 4. Services Grid
 - **Layout**: CSS Grid, grid-cols-1 md:grid-cols-2 lg:grid-cols-4, gap-6
 - **Cards**:
-  - Background: Card (#1e293b)
+  - Background: Card (#0f1419)
   - Padding: p-8
   - Border: 1px border-muted
-  - Hover: Scale 1.05, shadow-lg, border-accent
-  - Icon: Lucide React (64px, cyan)
+  - Hover: Scale 1.05, shadow-lg, border-primary (VIESA teal)
+  - Icon: Lucide React (64px, VIESA teal)
   - Title: 20px, white
   - Description: 16px, slate gray (hidden on mobile, show on hover for mobile via CSS)
 - **Transition**: smooth 300ms
@@ -97,8 +98,8 @@ components/
 - **Layout**: Horizontal timeline flex, gap-8, py-20
 - **Steps** (4 total): Discovery → Design → Build → Automate
 - **Per Step**:
-  - Icon: Large Lucide (48px, cyan)
-  - Number/Badge: "01", "02", "03", "04" (cyan background, rounded)
+  - Icon: Large Lucide (48px, VIESA teal)
+  - Number/Badge: "01", "02", "03", "04" (VIESA teal background, rounded)
   - Title: 20px white
   - Description: 16px slate gray
   - Connector Line: Horizontal line between steps (hidden on mobile)
@@ -109,12 +110,12 @@ components/
 - **Layout**: 3-column grid on desktop, stacked on mobile
 - **Section Title**: H2 (48px) centered above
 - **Per Column**:
-  - Icon: Lucide (48px, cyan)
+  - Icon: Lucide (48px, VIESA teal)
   - Title: 24px white
   - Description: 16px slate gray
   - Background: Subtle card background, light borders
   - Padding: p-8
-  - Hover: Border-accent glow effect
+  - Hover: Border-primary glow effect (VIESA teal)
 
 ### 7. FAQ Section
 - **Layout**: Max-width 900px, centered, py-20
@@ -122,9 +123,9 @@ components/
 - **Accordion**:
   - Use Shadcn Accordion component (collapsible)
   - 8-10 questions in Dutch (e.g., "Hoe lang duurt een project?", "Wat zijn de kosten?", "Ondersteun jullie integraties met X?")
-  - Question: Bold, cyan underline on hover
+  - Question: Bold, VIESA teal underline on hover
   - Answer: Slate gray, p-4, smooth collapse animation
-  - Chevron icon: Rotates 180° on expand
+  - Chevron icon: Rotates 180° on expand, VIESA teal
 
 ### 8. Footer
 - **Layout**: Flex column, bg-background, py-12, border-t border-muted
@@ -204,8 +205,8 @@ components/
 ---
 
 ## Animation & Transitions
-- **Hover States**: 300ms ease-in-out scale/shadow
-- **Marquee**: Infinite 20s loop
+- **Hover States**: 300ms ease-in-out scale/shadow with VIESA teal borders
+- **Marquee**: Infinite 20s loop with grayscale filter
 - **Accordion**: 200ms smooth height animation
 - **Scroll Animations**: Consider subtle fade-in on sections (optional polish)
 
@@ -214,7 +215,7 @@ components/
 ## Accessibility
 - Semantic HTML (header, nav, main, footer, section)
 - ARIA labels on interactive elements (buttons, accordion)
-- Color contrast: Cyan (#00d9ff) on dark bg passes WCAG AA
+- Color contrast: VIESA Teal (#0F5373) on dark bg, Light Cyan on dark bg both pass WCAG AA
 - Alt text on logos (if images)
 - Skip-to-main-content link (optional)
 
@@ -244,7 +245,8 @@ components/
 ---
 
 ## Approval Checklist
-- [ ] Color palette approved (Midnight Blue, Slate, Cyan)
+- [ ] Color palette approved (VIESA Teal, Deep Slate, Light Cyan)
+- [ ] Logo integrated (VIESA shield in navigation)
 - [ ] Typography (Inter, sizing hierarchy) approved
 - [ ] Component specs clear and aligned
 - [ ] Implementation order logical
