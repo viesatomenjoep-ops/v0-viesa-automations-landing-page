@@ -4,68 +4,44 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* VIESA Brand Colors */
-  --viesa-primary: #0F5373;      /* Primary teal from logo */
-  --viesa-accent: #00d9ff;       /* Light cyan for highlights */
-  
-  /* Light Mode */
-  --background: #f8fafc;         /* Off-white */
-  --foreground: #1a2332;         /* Deep slate */
-  --card: #ffffff;               /* White */
-  --card-foreground: #1a2332;
-  --popover: #ffffff;
-  --popover-foreground: #1a2332;
-  --primary: #0F5373;            /* VIESA teal */
+  /* VIESA Brand Palette */
+  --background: #050505;
+  --foreground: #ffffff;
+  --card: #0f1419;
+  --card-foreground: #ffffff;
+  --popover: #050505;
+  --popover-foreground: #ffffff;
+  --primary: #0F5373;
   --primary-foreground: #ffffff;
-  --secondary: #1a2332;          /* Deep slate */
+  --secondary: #2d3e52;
   --secondary-foreground: #ffffff;
-  --muted: #64748b;              /* Slate gray */
-  --muted-foreground: #334155;
-  --accent: #00d9ff;             /* Light cyan */
-  --accent-foreground: #0F5373;
-  --destructive: #dc2626;
+  --muted: #1a2332;
+  --muted-foreground: #94a3b8;
+  --accent: #0F5373;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #2d3e52;             /* Subtle dark border */
-  --input: #ffffff;
+  --border: #1e293b;
+  --input: #0f1419;
   --ring: #0F5373;
-  --chart-1: #0F5373;
-  --chart-2: #00d9ff;
-  --chart-3: #1a2332;
-  --chart-4: #64748b;
-  --chart-5: #334155;
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 }
 
 .dark {
-  /* Dark Mode - same as light for this design */
-  --background: #1a2332;         /* Deep slate */
-  --foreground: #ffffff;         /* White */
-  --card: #0f1419;               /* Darker slate */
+  --background: #050505;
+  --foreground: #ffffff;
+  --card: #0f1419;
   --card-foreground: #ffffff;
-  --popover: #0f1419;
-  --popover-foreground: #ffffff;
-  --primary: #0F5373;            /* VIESA teal */
-  --primary-foreground: #ffffff;
-  --secondary: #2d3e52;          /* Medium slate */
-  --secondary-foreground: #ffffff;
-  --muted: #64748b;              /* Slate gray */
-  --muted-foreground: #94a3b8;
-  --accent: #00d9ff;             /* Light cyan */
-  --accent-foreground: #0F5373;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --border: #2d3e52;
-  --input: #0f1419;
-  --ring: #0F5373;
-  --chart-1: #0F5373;
-  --chart-2: #00d9ff;
-  --chart-3: #334155;
-  --chart-4: #64748b;
-  --chart-5: #94a3b8;
+  --primary: #0F5373;
+  --secondary: #2d3e52;
+  --muted: #1a2332;
+  --accent: #0F5373;
+  --border: #1e293b;
 }
 
 @theme inline {
-  --font-sans: 'Geist', 'Geist Fallback';
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -108,6 +84,21 @@
 
 /* Custom brand colors as utility classes */
 @layer utilities {
+  .glass {
+    @apply bg-card/60 backdrop-blur-xl border border-white/10;
+  }
+  .glass-hover {
+    @apply hover:bg-card/80 hover:border-white/20 transition-all duration-500;
+  }
+  .text-glow {
+    text-shadow: 0 0 20px rgba(15, 83, 115, 0.4);
+  }
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 300px;
+    gap: 1.5rem;
+  }
   .bg-viesa-primary {
     @apply bg-[#0F5373];
   }
@@ -118,15 +109,27 @@
     @apply border-[#0F5373];
   }
   .bg-viesa-accent {
-    @apply bg-[#00d9ff];
+    @apply bg-[#2d3e52];
   }
   .text-viesa-accent {
-    @apply text-[#00d9ff];
+    @apply text-[#2d3e52];
   }
   .bg-viesa-slate {
-    @apply bg-[#1a2332];
+    @apply bg-[#050505];
   }
   .text-viesa-slate {
-    @apply text-[#1a2332];
+    @apply text-[#050505];
   }
+  .bg-300\% {
+    background-size: 300\% 300\%;
+  }
+  .animate-gradient {
+    animation: gradient-animation 8s ease infinite;
+  }
+}
+
+@keyframes gradient-animation {
+  0\% { background-position: 0\% 50\%; }
+  50\% { background-position: 100\% 50\%; }
+  100\% { background-position: 0\% 50\%; }
 }

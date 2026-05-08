@@ -3,38 +3,43 @@
 import { motion } from 'framer-motion';
 
 const logos = [
-  'Google',
-  'Microsoft',
-  'Amazon',
-  'Apple',
-  'Meta',
-  'IBM',
-  'Cisco',
-  'Oracle',
+  'TechFlow',
+  'Nexus AI',
+  'DataCore',
+  'CloudScale',
+  'Pulse Systems',
+  'Vertex IT',
+  'Prime Automate',
+  'LogicGate',
 ];
 
 export function TrustSection() {
   const duplicatedLogos = [...logos, ...logos];
 
   return (
-    <section className="py-16 md:py-24 bg-viesa-slate border-y border-[#2d3e52] overflow-hidden">
+    <section className="py-20 bg-background border-y border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
-        <p className="text-center text-[#64748b] text-sm md:text-base mb-12 uppercase tracking-wider">
-          Vertrouwd door toonaangevende bedrijven
-        </p>
+        <motion.p 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center text-muted-foreground text-xs md:text-sm mb-12 uppercase tracking-[0.3em] font-medium"
+        >
+          Partnering with Innovation Leaders
+        </motion.p>
 
         <div className="relative">
-          {/* Gradient masks for fade effect */}
-          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-viesa-slate to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-viesa-slate to-transparent z-10" />
+          {/* Masking gradients */}
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
 
           {/* Marquee Container */}
-          <div className="overflow-hidden">
+          <div className="flex overflow-hidden group">
             <motion.div
-              className="flex gap-16"
+              className="flex gap-20 py-4"
               animate={{ x: ['0%', '-50%'] }}
               transition={{
-                duration: 30,
+                duration: 40,
                 repeat: Infinity,
                 ease: 'linear',
               }}
@@ -42,13 +47,11 @@ export function TrustSection() {
               {duplicatedLogos.map((logo, index) => (
                 <div
                   key={index}
-                  className="flex-shrink-0 h-16 md:h-20 flex items-center justify-center"
+                  className="flex-shrink-0 flex items-center justify-center"
                 >
-                  <div className="grayscale opacity-60 hover:opacity-100 transition-opacity">
-                    <span className="text-lg md:text-xl font-semibold text-[#94a3b8]">
-                      {logo}
-                    </span>
-                  </div>
+                  <span className="text-2xl md:text-3xl font-display font-bold text-white/20 hover:text-primary/40 transition-colors duration-500 cursor-default select-none">
+                    {logo}
+                  </span>
                 </div>
               ))}
             </motion.div>

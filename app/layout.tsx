@@ -1,14 +1,21 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Outfit, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const outfit = Outfit({ 
+  subsets: ["latin"],
+  variable: '--font-outfit',
+});
+
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: 'VIESA Automations | IT Automation Solutions',
-  description: 'Van high-end websites tot complexe CRM-systemen: wij automatiseren uw groei van A tot Z. VIESA - Your Partner in Digital Automation.',
+  description: 'Van high-end websites tot complexe CRM-systemen: wij automatiseren uw groei van A tot Z. VIESA Automations - Your Partner in Digital Automation.',
   generator: 'v0.app',
 }
 
@@ -18,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="nl" className="bg-viesa-slate">
-      <body className="font-sans antialiased">
+    <html lang="nl" className={`${outfit.variable} ${inter.variable} bg-background dark`}>
+      <body className="font-sans antialiased text-foreground selection:bg-primary selection:text-primary-foreground">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
