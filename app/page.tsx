@@ -6,6 +6,7 @@ import { ProcessSection } from '@/components/process-section';
 import { USPSection } from '@/components/usp-section';
 import { FAQSection } from '@/components/faq-section';
 import { Footer } from '@/components/footer';
+import { ChatWidget } from '@/components/chat-widget';
 
 export default function Page() {
   return (
@@ -18,6 +19,7 @@ export default function Page() {
       <USPSection />
       <FAQSection />
       <Footer />
+      <ChatWidget />
     </main>
   );
 }
