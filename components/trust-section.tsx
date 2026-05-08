@@ -3,23 +3,19 @@
 import { motion } from 'framer-motion';
 
 const logos = [
-  'TechFlow',
-  'Nexus AI',
-  'DataCore',
-  'CloudScale',
-  'Pulse Systems',
-  'Vertex IT',
-  'Prime Automate',
-  'LogicGate',
+  'Politie',
+  'Wehkamp',
+  'Centraal beheer',
+  'Coop supermarkten',
 ];
 
 export function TrustSection() {
   const duplicatedLogos = [...logos, ...logos];
 
   return (
-    <section className="py-20 bg-background border-y border-white/5 overflow-hidden">
+    <section className="py-20 bg-white border-y border-slate-100 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -30,8 +26,8 @@ export function TrustSection() {
 
         <div className="relative">
           {/* Masking gradients */}
-          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
 
           {/* Marquee Container */}
           <div className="flex overflow-hidden group">
@@ -49,7 +45,7 @@ export function TrustSection() {
                   key={index}
                   className="flex-shrink-0 flex items-center justify-center"
                 >
-                  <span className="text-2xl md:text-3xl font-display font-bold text-white/20 hover:text-primary/40 transition-colors duration-500 cursor-default select-none">
+                  <span className="text-2xl md:text-3xl font-display font-bold text-slate-200 hover:text-primary transition-colors duration-500 cursor-default select-none">
                     {logo}
                   </span>
                 </div>

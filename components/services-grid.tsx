@@ -8,7 +8,7 @@ const services = [
   {
     icon: Globe,
     title: 'Websites & Platforms',
-    description: 'High-performance websites en web applicaties gebouwd met de nieuwste technologie.',
+    description: 'High-performance websites en webapplicaties ontworpen voor snelheid, conversie en schaalbaarheid. Volledig geoptimaliseerd voor SEO en AEO (Answer Engine Optimization), zodat uw bedrijf beter gevonden wordt in zoekmachines én AI-gedreven zoekresultaten. Van moderne websites tot complexe platforms en klantportalen — gebouwd met de nieuwste technologieën voor maximale performance en een naadloze gebruikerservaring.',
     className: 'md:col-span-2 md:row-span-2',
     image: '/abstract-tech-1.png', // Placeholder for generated images
     color: 'from-primary/20 to-transparent'
@@ -16,14 +16,14 @@ const services = [
   {
     icon: Server,
     title: 'CRM/ERP Systemen',
-    description: 'Geïntegreerde bedrijfssystemen die uw workflows automatiseren.',
-    className: 'md:col-span-1 md:row-span-1',
+    description: 'Slimme bedrijfssystemen die uw processen, data en communicatie samenbrengen in één geautomatiseerde omgeving. Met complete backoffice automatisering en AI-chatbot integraties creëren we meer efficiëntie, minder handmatig werk en maximale schaalbaarheid.',
+    className: 'md:col-span-1 md:row-span-2',
     color: 'from-secondary/20 to-transparent'
   },
   {
     icon: Zap,
     title: 'Lead Capture',
-    description: 'Geavanceerde systemen om leads automatisch in te vangen.',
+    description: 'AI chatbots en voice agents die bezoekers automatisch omzetten in gekwalificeerde leads. Van het beantwoorden van vragen tot het plannen van afspraken en opvolgen van prospects — onze systemen werken 24/7 om geen enkele kans verloren te laten gaan.',
     className: 'md:col-span-1 md:row-span-2',
     color: 'from-primary/20 to-transparent'
   },
@@ -60,14 +60,14 @@ const itemVariants = {
 
 export function ServicesGrid() {
   return (
-    <section id="services" className="py-24 md:py-40 bg-background px-4 relative overflow-hidden">
+    <section id="services" className="py-24 md:py-40 bg-gradient-to-b from-[#050505] to-[#0f172a] px-4 relative overflow-hidden">
       {/* Background Orbs */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -87,7 +87,7 @@ export function ServicesGrid() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[200px]"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto md:auto-rows-[240px]"
         >
           {services.map((service, index) => {
             const Icon = service.icon;
@@ -100,7 +100,7 @@ export function ServicesGrid() {
               >
                 {/* Gradient Overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                
+
                 <div className="relative z-10">
                   <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">
                     <Icon size={28} className="text-primary" />
@@ -109,7 +109,7 @@ export function ServicesGrid() {
                     {service.title}
                     <ArrowUpRight size={20} className="opacity-0 group-hover:opacity-100 transition-all -translate-y-1 translate-x-1" />
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed max-w-[280px]">
+                  <p className="text-muted-foreground leading-relaxed">
                     {service.description}
                   </p>
                 </div>

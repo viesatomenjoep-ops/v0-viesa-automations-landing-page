@@ -5,8 +5,8 @@
 
 :root {
   /* VIESA Brand Palette */
-  --background: #050505;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #0f172a;
   --card: #0f1419;
   --card-foreground: #ffffff;
   --popover: #050505;
@@ -80,6 +80,11 @@
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  
+  html {
+    overflow-x: hidden;
   }
 }
 

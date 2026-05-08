@@ -17,7 +17,7 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <Link href="#" className="flex items-center gap-3">
-               <span className="text-2xl font-display font-bold tracking-tight">
+              <span className="text-2xl font-display font-bold tracking-tight">
                 VIESA <span className="text-primary">Automations</span>
               </span>
             </Link>
@@ -75,8 +75,8 @@ export function Footer() {
                 <div className="w-10 h-10 rounded-xl glass border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors">
                   <Mail size={18} className="text-primary" />
                 </div>
-                <a href="mailto:info@viesa.nl" className="text-muted-foreground group-hover:text-white transition-colors font-sans">
-                  info@viesa.nl
+                <a href="mailto:contact@viesa-automations.nl" className="text-muted-foreground group-hover:text-white transition-colors font-sans">
+                  contact@viesa-automations.nl
                 </a>
               </li>
               <li className="flex items-center gap-4 group cursor-pointer">
@@ -92,7 +92,7 @@ export function Footer() {
                   <MapPin size={18} className="text-primary" />
                 </div>
                 <span className="text-muted-foreground font-sans pt-2">
-                  Amsterdam, Netherlands
+                  Breda, Netherlands
                 </span>
               </li>
             </ul>
