@@ -44,21 +44,21 @@ export function ProcessSection() {
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
           {/* Connector lines (hidden on mobile) */}
-          <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-[#0F5373] via-[#0F5373] to-transparent" />
+          <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-[#00d9ff] via-[#00d9ff]/50 to-transparent" />
 
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
               <div key={index} className="relative">
                 {/* Badge with number */}
-                <div className="inline-flex items-center justify-center w-14 h-14 bg-[#0F5373] text-white rounded-full font-bold text-lg mb-6 relative z-10">
+                <div className="inline-flex items-center justify-center w-14 h-14 bg-[#00d9ff] text-[#0f1419] rounded-full font-bold text-lg mb-6 relative z-10">
                   {step.number}
                 </div>
 
                 {/* Card */}
                 <div className="pt-4">
-                  <div className="mb-4 inline-block p-3 bg-[#0F5373]/20 rounded-lg">
-                    <Icon size={28} className="text-[#0F5373]" />
+                  <div className="mb-4 inline-block p-3 bg-[#00d9ff]/10 rounded-lg">
+                    <Icon size={28} className="text-[#00d9ff]" />
                   </div>
 
                   <h3 className="text-xl font-bold text-white mb-3">{step.title}</h3>

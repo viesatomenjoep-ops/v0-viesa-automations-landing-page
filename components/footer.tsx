@@ -10,7 +10,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold text-[#0F5373] mb-4">VIESA</h3>
+            <h3 className="text-xl font-bold text-[#00d9ff] mb-4">VIESA</h3>
             <p className="text-[#94a3b8] text-sm leading-relaxed">
               Automating your growth from A to Z. Transforming businesses through intelligent technology solutions.
             </p>
@@ -21,22 +21,22 @@ export function Footer() {
             <h4 className="font-semibold text-white mb-4">Diensten</h4>
             <ul className="space-y-2 text-[#94a3b8] text-sm">
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Websites & Platforms
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   CRM/ERP Systemen
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Lead Capture
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Mobiele Apps
                 </Link>
               </li>
@@ -48,22 +48,22 @@ export function Footer() {
             <h4 className="font-semibold text-white mb-4">Bedrijf</h4>
             <ul className="space-y-2 text-[#94a3b8] text-sm">
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Over Ons
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Cases
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#0F5373] transition-colors">
+                <Link href="#" className="hover:text-[#00d9ff] transition-colors">
                   Privacy
                 </Link>
               </li>
@@ -75,19 +75,19 @@ export function Footer() {
             <h4 className="font-semibold text-white mb-4">Contact</h4>
             <ul className="space-y-3 text-[#94a3b8] text-sm">
               <li className="flex items-center gap-2">
-                <Mail size={16} className="text-[#0F5373]" />
-                <a href="mailto:info@viesa.nl" className="hover:text-[#0F5373] transition-colors">
+                <Mail size={16} className="text-[#00d9ff]" />
+                <a href="mailto:info@viesa.nl" className="hover:text-[#00d9ff] transition-colors">
                   info@viesa.nl
                 </a>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={16} className="text-[#0F5373]" />
-                <a href="tel:+31612345678" className="hover:text-[#0F5373] transition-colors">
+                <Phone size={16} className="text-[#00d9ff]" />
+                <a href="tel:+31612345678" className="hover:text-[#00d9ff] transition-colors">
                   +31 6 12 34 56 78
                 </a>
               </li>
               <li className="flex items-start gap-2">
-                <MapPin size={16} className="text-[#0F5373] mt-0.5 flex-shrink-0" />
+                <MapPin size={16} className="text-[#00d9ff] mt-0.5 flex-shrink-0" />
                 <span>Amsterdam, Netherlands</span>
               </li>
             </ul>
@@ -108,21 +108,21 @@ export function Footer() {
           <div className="flex gap-4">
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2d3e52] hover:bg-[#0F5373] transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2d3e52] hover:bg-[#00d9ff] hover:text-[#0f1419] transition-colors"
               aria-label="GitHub"
             >
               <Github size={20} />
             </a>
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2d3e52] hover:bg-[#0F5373] transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2d3e52] hover:bg-[#00d9ff] hover:text-[#0f1419] transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin size={20} />
             </a>
             <a
               href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2d3e52] hover:bg-[#0F5373] transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#2d3e52] hover:bg-[#00d9ff] hover:text-[#0f1419] transition-colors"
               aria-label="Twitter"
             >
               <Twitter size={20} />

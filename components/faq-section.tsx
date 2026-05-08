@@ -68,8 +68,8 @@ export function FAQSection() {
               value={`item-${index}`}
               className="border-b border-[#2d3e52] last:border-0"
             >
-              <AccordionTrigger className="py-6 hover:text-[#0F5373] transition-colors text-left">
-                <span className="text-lg font-semibold text-white group-hover:text-[#0F5373]">
+              <AccordionTrigger className="py-6 hover:text-[#00d9ff] transition-colors text-left text-white">
+                <span className="text-lg font-semibold">
                   {faq.question}
                 </span>
               </AccordionTrigger>
@@ -81,9 +81,9 @@ export function FAQSection() {
         </Accordion>
 
         {/* Still have questions? */}
-        <div className="mt-12 p-8 bg-[#0F5373]/10 border border-[#0F5373]/20 rounded-xl text-center">
+        <div className="mt-12 p-8 bg-[#00d9ff]/5 border border-[#00d9ff]/20 rounded-xl text-center">
           <p className="text-[#94a3b8] mb-4">Nog vragen? We helpen graag!</p>
-          <button className="px-8 py-3 bg-[#0F5373] text-white rounded-lg hover:bg-[#0d4360] transition-colors font-semibold">
+          <button className="px-8 py-3 bg-[#00d9ff] text-[#0f1419] rounded-lg hover:bg-[#00c4e6] transition-colors font-semibold">
             Contacteer ons
           </button>
         </div>

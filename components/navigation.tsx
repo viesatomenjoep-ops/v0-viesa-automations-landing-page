@@ -23,7 +23,7 @@ export function Navigation() {
                 className="object-contain"
               />
             </div>
-            <span className="text-xl font-bold text-[#0F5373]">VIESA</span>
+            <span className="text-xl font-bold text-[#00d9ff]">VIESA</span>
           </Link>
 
           {/* Desktop Navigation */}

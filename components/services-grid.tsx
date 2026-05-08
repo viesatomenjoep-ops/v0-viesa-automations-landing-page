@@ -44,11 +44,11 @@ export function ServicesGrid() {
             return (
               <div
                 key={index}
-                className="group p-8 bg-[#0f1419] border border-[#2d3e52] rounded-xl hover:border-[#0F5373] transition-all duration-300 hover:shadow-lg hover:shadow-[#0F5373]/20 hover:scale-105"
+                className="group p-8 bg-[#0f1419] border border-[#2d3e52] rounded-xl hover:border-[#00d9ff] transition-all duration-300 hover:shadow-lg hover:shadow-[#00d9ff]/20 hover:scale-105"
               >
                 {/* Icon */}
-                <div className="mb-6 inline-block p-3 bg-[#0F5373]/20 rounded-lg group-hover:bg-[#0F5373]/30 transition-colors">
-                  <Icon size={32} className="text-[#0F5373]" />
+                <div className="mb-6 inline-block p-3 bg-[#00d9ff]/10 rounded-lg group-hover:bg-[#00d9ff]/20 transition-colors">
+                  <Icon size={32} className="text-[#00d9ff]" />
                 </div>
 
                 {/* Title */}

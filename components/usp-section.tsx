@@ -39,11 +39,11 @@ export function USPSection() {
             return (
               <div
                 key={index}
-                className="p-8 bg-[#0f1419] border border-[#2d3e52] rounded-xl hover:border-[#0F5373] transition-all duration-300 group"
+                className="p-8 bg-[#0f1419] border border-[#2d3e52] rounded-xl hover:border-[#00d9ff] transition-all duration-300 group"
               >
                 {/* Icon */}
-                <div className="mb-6 inline-block p-4 bg-[#0F5373]/20 rounded-lg group-hover:bg-[#0F5373]/30 transition-colors">
-                  <Icon size={32} className="text-[#0F5373]" />
+                <div className="mb-6 inline-block p-4 bg-[#00d9ff]/10 rounded-lg group-hover:bg-[#00d9ff]/20 transition-colors">
+                  <Icon size={32} className="text-[#00d9ff]" />
                 </div>
 
                 {/* Title */}

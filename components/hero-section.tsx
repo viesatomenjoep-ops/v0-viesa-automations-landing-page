@@ -21,7 +21,7 @@ export function HeroSection() {
         {/* Main Title */}
         <h1 className="text-5xl md:text-7xl font-bold text-white text-balance leading-tight">
           Uw Bedrijf op Autopiloot met{' '}
-          <span className="text-[#0F5373]">VIESA</span>
+          <span className="text-[#00d9ff]">VIESA</span>
         </h1>
 
         {/* Subtitle */}
@@ -34,7 +34,7 @@ export function HeroSection() {
           <button className="px-8 py-4 bg-[#0F5373] text-white rounded-lg hover:bg-[#0d4360] transition-all duration-300 font-semibold hover:shadow-lg hover:shadow-[#0F5373]/30">
             Start Project
           </button>
-          <button className="px-8 py-4 border-2 border-[#0F5373] text-[#0F5373] rounded-lg hover:bg-[#0F5373]/10 transition-all duration-300 font-semibold">
+          <button className="px-8 py-4 border-2 border-[#00d9ff] text-[#00d9ff] rounded-lg hover:bg-[#00d9ff]/10 transition-all duration-300 font-semibold">
             Onze Diensten
           </button>
         </div>
