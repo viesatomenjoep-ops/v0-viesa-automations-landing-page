@@ -31,6 +31,7 @@ export function Navigation() {
   const navLinks = [
     { name: 'Services', href: '#services' },
     { name: 'Werkwijze', href: '#process' },
+    { name: 'Over ons', href: '#over-ons' },
     { name: 'FAQ', href: '#faq' },
   ];
 

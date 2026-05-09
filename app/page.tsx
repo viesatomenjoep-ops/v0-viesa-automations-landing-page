@@ -4,6 +4,7 @@ import { TrustSection } from '@/components/trust-section';
 import { ServicesGrid } from '@/components/services-grid';
 import { ProcessSection } from '@/components/process-section';
 import { USPSection } from '@/components/usp-section';
+import { AboutSection } from '@/components/about-section';
 import { FAQSection } from '@/components/faq-section';
 import { Footer } from '@/components/footer';
 import { ChatWidget } from '@/components/chat-widget';
@@ -17,6 +18,7 @@ export default function Page() {
       <ServicesGrid />
       <ProcessSection />
       <USPSection />
+      <AboutSection />
       <FAQSection />
       <Footer />
       <ChatWidget />

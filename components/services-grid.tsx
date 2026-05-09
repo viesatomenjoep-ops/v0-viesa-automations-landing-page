@@ -95,12 +95,9 @@ export function ServicesGrid() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                whileHover={{ y: -5 }}
-                className={`group relative glass glass-hover rounded-3xl p-8 overflow-hidden flex flex-col justify-between ${service.className}`}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className={`group relative bg-gradient-to-br ${service.color} border border-white/10 rounded-3xl p-8 overflow-hidden flex flex-col justify-between transition-all duration-500 shadow-xl ${service.className}`}
               >
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
                 <div className="relative z-10">
                   <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">
                     <Icon size={28} className="text-primary" />

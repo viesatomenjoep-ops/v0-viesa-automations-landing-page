@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Accordion,
@@ -8,6 +9,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { MessageCircle } from 'lucide-react';
+import { ContactModal } from './contact-modal';
 
 const faqs = [
   {
@@ -43,7 +45,10 @@ const faqs = [
 ];
 
 export function FAQSection() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
+    <>
     <section id="faq" className="py-24 md:py-40 bg-gradient-to-b from-slate-50 to-white px-4 relative overflow-hidden">
        {/* Background accent */}
        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none" />
@@ -106,12 +111,21 @@ export function FAQSection() {
             </div>
             <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">Nog vragen?</h3>
             <p className="text-slate-500 mb-8 max-w-sm mx-auto">We helpen graag om uw project tot een succes te maken.</p>
-            <button className="px-10 py-4 bg-primary text-white rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.4)] transition-all duration-300">
+            <button 
+              onClick={() => setIsContactOpen(true)}
+              className="px-10 py-4 bg-primary text-white rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.4)] transition-all duration-300"
+            >
               Contacteer ons
             </button>
           </div>
         </motion.div>
       </div>
     </section>
+
+    <ContactModal 
+      isOpen={isContactOpen} 
+      onClose={() => setIsContactOpen(false)} 
+    />
+    </>
   );
 }
