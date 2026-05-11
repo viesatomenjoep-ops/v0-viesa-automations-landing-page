@@ -2,38 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { Globe, Server, Zap, Smartphone, ArrowUpRight } from 'lucide-react';
-import Image from 'next/image';
+import { useTranslation } from '@/hooks/use-translation';
+import { useServices } from '@/hooks/use-services';
 
-const services = [
-  {
-    icon: Globe,
-    title: 'Websites & Platforms',
-    description: 'High-performance websites en webapplicaties ontworpen voor snelheid, conversie en schaalbaarheid. Volledig geoptimaliseerd voor SEO en AEO (Answer Engine Optimization), zodat uw bedrijf beter gevonden wordt in zoekmachines én AI-gedreven zoekresultaten. Van moderne websites tot complexe platforms en klantportalen — gebouwd met de nieuwste technologieën voor maximale performance en een naadloze gebruikerservaring.',
-    className: 'md:col-span-2 md:row-span-2',
-    image: '/abstract-tech-1.png', // Placeholder for generated images
-    color: 'from-primary/20 to-transparent'
-  },
-  {
-    icon: Server,
-    title: 'CRM/ERP Systemen',
-    description: 'Slimme bedrijfssystemen die uw processen, data en communicatie samenbrengen in één geautomatiseerde omgeving. Met complete backoffice automatisering en AI-chatbot integraties creëren we meer efficiëntie, minder handmatig werk en maximale schaalbaarheid.',
-    className: 'md:col-span-1 md:row-span-2',
-    color: 'from-secondary/20 to-transparent'
-  },
-  {
-    icon: Zap,
-    title: 'Lead Capture',
-    description: 'AI chatbots en voice agents die bezoekers automatisch omzetten in gekwalificeerde leads. Van het beantwoorden van vragen tot het plannen van afspraken en opvolgen van prospects — onze systemen werken 24/7 om geen enkele kans verloren te laten gaan.',
-    className: 'md:col-span-1 md:row-span-2',
-    color: 'from-primary/20 to-transparent'
-  },
-  {
-    icon: Smartphone,
-    title: 'Mobiele Apps',
-    description: 'Native en cross-platform apps die uw bedrijf naar mobiel brengen.',
-    className: 'md:col-span-1 md:row-span-1',
-    color: 'from-secondary/20 to-transparent'
-  },
+const iconMap: Record<string, any> = {
+  Globe,
+  Server,
+  Zap,
+  Smartphone
+};
+
+const serviceCardStyles = [
+  { className: 'md:col-span-2 md:row-span-2', color: 'from-primary/20 to-transparent' },
+  { className: 'md:col-span-1 md:row-span-2', color: 'from-secondary/20 to-transparent' },
+  { className: 'md:col-span-1 md:row-span-2', color: 'from-primary/20 to-transparent' },
+  { className: 'md:col-span-1 md:row-span-1', color: 'from-secondary/20 to-transparent' },
 ];
 
 const containerVariants = {
@@ -59,6 +42,9 @@ const itemVariants = {
 };
 
 export function ServicesGrid() {
+  const { t } = useTranslation();
+  const { services, isLoading } = useServices();
+
   return (
     <section id="services" className="py-24 md:py-40 bg-gradient-to-b from-[#050505] to-[#0f172a] px-4 relative overflow-hidden">
       {/* Background Orbs */}
@@ -74,10 +60,10 @@ export function ServicesGrid() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-tight">
-            Onze <span className="text-primary text-glow">Expertise</span>
+            {t('services.header_title', 'Onze Expertise')}
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-sans">
-            Wij bouwen de digitale ruggengraat van uw onderneming met moderne technologie en slimme automatisering.
+            {t('services.header_subtitle', 'Wij bouwen de digitale ruggengraat van uw onderneming met moderne technologie en slimme automatisering.')}
           </p>
         </motion.div>
 
@@ -90,13 +76,15 @@ export function ServicesGrid() {
           className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto md:auto-rows-[240px]"
         >
           {services.map((service, index) => {
-            const Icon = service.icon;
+            const Icon = iconMap[service.icon_name] || Globe;
+            const style = serviceCardStyles[index % serviceCardStyles.length];
+            
             return (
               <motion.div
-                key={index}
+                key={service.id}
                 variants={itemVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className={`group relative bg-gradient-to-br ${service.color} border border-white/10 rounded-3xl p-8 overflow-hidden flex flex-col justify-between transition-all duration-500 shadow-xl ${service.className}`}
+                className={`group relative bg-gradient-to-br ${style.color} border border-white/10 rounded-3xl p-8 overflow-hidden flex flex-col justify-between transition-all duration-500 shadow-xl ${style.className}`}
               >
                 <div className="relative z-10">
                   <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">

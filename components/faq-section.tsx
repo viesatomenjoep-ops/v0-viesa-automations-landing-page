@@ -10,122 +10,93 @@ import {
 } from '@/components/ui/accordion';
 import { MessageCircle } from 'lucide-react';
 import { ContactModal } from './contact-modal';
-
-const faqs = [
-  {
-    question: 'Hoe lang duurt een typisch project?',
-    answer:
-      'Dit hangt af van de complexiteit en scope. Websites duren meestal 4-8 weken, terwijl complexe CRM-systemen 3-6 maanden kunnen duren. We geven altijd realistische timelines in de discovery fase.',
-  },
-  {
-    question: 'Wat zijn de kosten voor een project?',
-    answer:
-      'Prijzen variëren afhankelijk van requirements. We werken meestal met fixed quotes of time-and-materials. Eerst hebben we altijd een gratis consultation om scope en budget te bespreken.',
-  },
-  {
-    question: 'Ondersteun jullie integraties met externe systemen?',
-    answer:
-      'Ja, we hebben ervaring met integraties met alle populaire platforms: Salesforce, HubSpot, QuickBooks, Stripe, en meer. We bouwen custom API\'s als nodig.',
-  },
-  {
-    question: 'Bieden jullie ondersteuning na lancering?',
-    answer:
-      'Absoluut. We bieden maintenance, bug fixes, en support packages. Na lancering helpen we met monitoring en optimisatie zodat alles soepel blijft lopen.',
-  },
-  {
-    question: 'Kunnen jullie SEO voor onze website optimaliseren?',
-    answer:
-      'Ja, SEO is ingebakken in al onze website-projecten. We implementeren on-page SEO, technical SEO, en volgen best practices voor performance en indexability.',
-  },
-  {
-    question: 'Hoe gaat het met veiligheid en data privacy?',
-    answer:
-      'Veiligheid is topprioriteit. We implementeren SSL/HTTPS, data encryption, secure authentication, en volgen GDPR-richtlijnen. Regelmatige security audits zijn standaard.',
-  },
-];
+import { useTranslation } from '@/hooks/use-translation';
+import { useFAQs } from '@/hooks/use-faqs';
 
 export function FAQSection() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const { t } = useTranslation();
+  const { faqs, isLoading } = useFAQs();
 
   return (
     <>
-    <section id="faq" className="py-24 md:py-40 bg-gradient-to-b from-slate-50 to-white px-4 relative overflow-hidden">
-       {/* Background accent */}
-       <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none" />
+      <section id="faq" className="py-24 md:py-40 bg-gradient-to-b from-slate-50 to-white px-4 relative overflow-hidden">
+        {/* Background accent */}
+        <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto relative z-10">
-        {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
-            Veelgestelde <span className="text-primary">Vragen</span>
-          </h2>
-          <p className="text-lg md:text-xl text-slate-500 font-sans max-w-2xl mx-auto leading-relaxed">
-            Alles wat u moet weten over onze werkwijze en expertise.
-          </p>
-        </motion.div>
+        <div className="max-w-4xl mx-auto relative z-10">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
+              {t('faq.header_title', 'Veelgestelde')} <span className="text-primary">{t('faq.header_title_accent', 'Vragen')}</span>
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 font-sans max-w-2xl mx-auto leading-relaxed">
+              {t('faq.header_subtitle', 'Alles wat u moet weten over onze werkwijze en expertise.')}
+            </p>
+          </motion.div>
 
-        {/* FAQ Accordion */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white rounded-[40px] p-2 border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden"
-        >
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border-b border-slate-100 last:border-0 px-8"
+          {/* FAQ Accordion */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-white rounded-[40px] p-2 border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden"
+          >
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem
+                  key={faq.id}
+                  value={`item-${index}`}
+                  className="border-b border-slate-100 last:border-0 px-8"
+                >
+                  <AccordionTrigger className="py-8 hover:text-primary transition-all text-left hover:no-underline group">
+                    <span className="text-lg md:text-xl font-display font-medium text-slate-900 group-hover:text-primary group-data-[state=open]:text-primary transition-colors">
+                      {faq.question}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-slate-600 pb-8 leading-relaxed font-sans text-base md:text-lg">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </motion.div>
+
+          {/* Still have questions? */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="mt-16 p-10 bg-white border border-primary/10 rounded-[40px] text-center relative group overflow-hidden shadow-lg"
+          >
+            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            <div className="relative z-10">
+              <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
+                <MessageCircle className="text-primary" size={32} />
+              </div>
+              <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">{t('faq.cta_title', 'Nog vragen?')}</h3>
+              <p className="text-slate-500 mb-8 max-w-sm mx-auto">{t('faq.cta_subtitle', 'We helpen graag om uw project tot een succes te maken.')}</p>
+              <button
+                onClick={() => setIsContactOpen(true)}
+                className="px-10 py-4 bg-primary text-white rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.4)] transition-all duration-300"
               >
-                <AccordionTrigger className="py-8 hover:text-primary transition-all text-left hover:no-underline group">
-                  <span className="text-lg md:text-xl font-display font-medium text-slate-900 group-hover:text-primary group-data-[state=open]:text-primary transition-colors">
-                    {faq.question}
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="text-slate-600 pb-8 leading-relaxed font-sans text-base md:text-lg">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
-
-        {/* Still have questions? */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="mt-16 p-10 bg-white border border-primary/10 rounded-[40px] text-center relative group overflow-hidden shadow-lg"
-        >
-          <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          
-          <div className="relative z-10">
-            <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
-              <MessageCircle className="text-primary" size={32} />
+                {t('faq.cta_button', 'Contacteer ons')}
+              </button>
             </div>
-            <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">Nog vragen?</h3>
-            <p className="text-slate-500 mb-8 max-w-sm mx-auto">We helpen graag om uw project tot een succes te maken.</p>
-            <button 
-              onClick={() => setIsContactOpen(true)}
-              className="px-10 py-4 bg-primary text-white rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.4)] transition-all duration-300"
-            >
-              Contacteer ons
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+          </motion.div>
+        </div>
+      </section>
 
-    <ContactModal 
-      isOpen={isContactOpen} 
-      onClose={() => setIsContactOpen(false)} 
-    />
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
     </>
   );
 }

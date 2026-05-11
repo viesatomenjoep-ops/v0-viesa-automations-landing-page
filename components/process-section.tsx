@@ -2,36 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { Search, Palette, Code, Sparkles } from 'lucide-react';
+import { useTranslation } from '@/hooks/use-translation';
+import { useProcess } from '@/hooks/use-process';
 
-const steps = [
-  {
-    number: '01',
-    icon: Search,
-    title: 'Discovery',
-    description: 'We analyseren uw bedrijf, doelgroep en markt om de perfecte oplossing te ontwerpen.',
-    color: 'border-cyan-500/30'
-  },
-  {
-    number: '02',
-    icon: Palette,
-    title: 'Design',
-    description: 'Slick, modern design dat uw brand weerspiegelt en gebruikers begeistert.',
-    color: 'border-violet-500/30'
-  },
-  {
-    number: '03',
-    icon: Code,
-    title: 'Build',
-    description: 'Robuuste, scalable code gebouwd met best practices en de nieuwste tech.',
-    color: 'border-blue-500/30'
-  },
-  {
-    number: '04',
-    icon: Sparkles,
-    title: 'Automate',
-    description: 'Integratie en automatisering zodat uw bedrijf soepel draait, 24/7.',
-    color: 'border-emerald-500/30'
-  },
+const iconMap: Record<string, any> = {
+  'Discovery': Search,
+  'Design': Palette,
+  'Build': Code,
+  'Automate': Sparkles
+};
+
+const colors = [
+  'border-cyan-500/30',
+  'border-violet-500/30',
+  'border-blue-500/30',
+  'border-emerald-500/30'
 ];
 
 const containerVariants = {
@@ -57,6 +42,9 @@ const itemVariants = {
 };
 
 export function ProcessSection() {
+  const { t } = useTranslation();
+  const { steps, isLoading } = useProcess();
+
   return (
     <section id="process" className="py-24 md:py-40 bg-slate-50 px-4 relative">
        {/* Background accent */}
@@ -71,10 +59,10 @@ export function ProcessSection() {
           className="text-center mb-24"
         >
           <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
-            Onze <span className="text-primary">Werkwijze</span>
+            {t('process.header_title', 'Onze')} <span className="text-primary">{t('process.header_title_accent', 'Werkwijze')}</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-sans leading-relaxed">
-            Van concept tot realisatie: een gestroomlijnd proces gericht op snelheid en kwaliteit.
+            {t('process.header_subtitle', 'Van concept tot realisatie: een gestroomlijnd proces gericht op snelheid en kwaliteit.')}
           </p>
         </motion.div>
 
@@ -90,17 +78,20 @@ export function ProcessSection() {
           <div className="hidden lg:block absolute top-[28px] left-[60px] right-[60px] h-[1px] bg-gradient-to-r from-primary/30 via-secondary/30 to-primary/30 opacity-50" />
 
           {steps.map((step, index) => {
-            const Icon = step.icon;
+            // Map icon by title or index fallback
+            const Icon = iconMap[step.title] || (index === 0 ? Search : index === 1 ? Palette : index === 2 ? Code : Sparkles);
+            const color = colors[index % colors.length];
+            
             return (
               <motion.div 
-                key={index} 
+                key={step.id} 
                 variants={itemVariants}
                 className="relative group"
               >
                 {/* Badge with number */}
                 <div className="relative flex items-center justify-center w-14 h-14 bg-white border border-slate-200 rounded-full font-display font-bold text-lg mb-8 z-10 group-hover:border-primary/50 transition-all duration-500 shadow-sm">
                   <span className="text-slate-900 group-hover:text-primary transition-colors">
-                    {step.number}
+                    0{index + 1}
                   </span>
                   
                   {/* Subtle glow behind number */}
@@ -108,7 +99,7 @@ export function ProcessSection() {
                 </div>
 
                 {/* Card-like content */}
-                <div className={`p-8 bg-white rounded-3xl border border-slate-100 border-l-4 ${step.color} hover:shadow-xl hover:shadow-primary/5 transition-all duration-500`}>
+                <div className={`p-8 bg-white rounded-3xl border border-slate-100 border-l-4 ${color} hover:shadow-xl hover:shadow-primary/5 transition-all duration-500`}>
                   <div className="mb-6 inline-block p-4 rounded-2xl bg-slate-50 border border-slate-100 group-hover:border-primary/30 transition-colors">
                     <Icon size={28} className="text-primary" />
                   </div>
