@@ -19,15 +19,21 @@ export const metadata: Metadata = {
   generator: 'v0.app',
 }
 
+import { TranslationProvider } from '@/hooks/use-translation';
+import { Toaster } from '@/components/ui/sonner';
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="nl" className={`${outfit.variable} ${inter.variable} bg-background dark`}>
+    <html lang="nl" className={`${outfit.variable} ${inter.variable} bg-background dark scroll-smooth`}>
       <body className="font-sans antialiased text-foreground selection:bg-primary selection:text-primary-foreground">
-        {children}
+        <TranslationProvider>
+          {children}
+        </TranslationProvider>
+        <Toaster position="top-right" />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

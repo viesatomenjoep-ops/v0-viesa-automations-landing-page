@@ -1,16 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-
-const logos = [
-  'Politie',
-  'Wehkamp',
-  'Centraal beheer',
-  'Coop supermarkten',
-];
+import { useTranslation } from '@/hooks/use-translation';
+import { usePartners } from '@/hooks/use-partners';
 
 export function TrustSection() {
-  const duplicatedLogos = [...logos, ...logos];
+  const { t } = useTranslation();
+  const { partners, isLoading } = usePartners();
+  
+  const duplicatedPartners = [...partners, ...partners];
 
   return (
     <section className="py-20 bg-white border-y border-slate-100 overflow-hidden">
@@ -21,7 +19,7 @@ export function TrustSection() {
           viewport={{ once: true }}
           className="text-center text-muted-foreground text-xs md:text-sm mb-12 uppercase tracking-[0.3em] font-medium"
         >
-          Partnering with Innovation Leaders
+          {t('trust.header', 'Partnering with Innovation Leaders')}
         </motion.p>
 
         <div className="relative">
@@ -31,26 +29,28 @@ export function TrustSection() {
 
           {/* Marquee Container */}
           <div className="flex overflow-hidden group">
-            <motion.div
-              className="flex gap-20 py-4"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{
-                duration: 40,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-            >
-              {duplicatedLogos.map((logo, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 flex items-center justify-center"
-                >
-                  <span className="text-2xl md:text-3xl font-display font-bold text-slate-200 hover:text-primary transition-colors duration-500 cursor-default select-none">
-                    {logo}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
+            {partners.length > 0 && (
+              <motion.div
+                className="flex gap-20 py-4"
+                animate={{ x: ['0%', '-50%'] }}
+                transition={{
+                  duration: 40,
+                  repeat: Infinity,
+                  ease: 'linear',
+                }}
+              >
+                {duplicatedPartners.map((partner, index) => (
+                  <div
+                    key={`${partner.id}-${index}`}
+                    className="flex-shrink-0 flex items-center justify-center"
+                  >
+                    <span className="text-2xl md:text-3xl font-display font-bold text-slate-200 hover:text-primary transition-colors duration-500 cursor-default select-none">
+                      {partner.name}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+            )}
           </div>
         </div>
       </div>

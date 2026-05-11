@@ -1,9 +1,11 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTranslation } from '@/hooks/use-translation';
 
 export function AboutSection() {
   const { scrollY } = useScroll();
+  const { t } = useTranslation();
 
   return (
     <section id="over-ons" className="py-24 md:py-40 bg-white px-4 relative overflow-hidden">
@@ -21,18 +23,18 @@ export function AboutSection() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-8 tracking-tight">
-              Over <span className="text-primary">ons</span>
+              {t('about.title', 'Over')} <span className="text-primary">{t('about.title_accent', 'ons')}</span>
             </h2>
 
             <div className="space-y-6 text-lg text-slate-600 leading-relaxed font-sans">
               <p>
-                Viesa Automations ontwikkelt innovatieve automatiseringsoplossingen en digitale platformen voor bedrijven die sneller, slimmer en efficiënter willen werken. Sinds 2013 bouwt Viesa aan schaalbare software, procesoptimalisatie en slimme technologie voor uiteenlopende sectoren.
+                {t('about.description_p1', 'Viesa Automations ontwikkelt innovatieve automatiseringsoplossingen en digitale platformen voor bedrijven die sneller, slimmer en efficiënter willen werken.')}
               </p>
               <p>
-                Met jarenlange ervaring in programmeren en softwareontwikkeling beschikt het team over diepgaande technische expertise. Daarnaast heeft Viesa een eigen AI-model ontwikkeld, gebaseerd op praktijkervaring en geoptimaliseerde workflows. Hierdoor kan het team razendsnel ontwikkelen, processen automatiseren en hoogwaardige oplossingen realiseren tegen aanzienlijk lagere ontwikkelkosten.
+                {t('about.description_p2', 'Met jarenlange ervaring in programmeren en softwareontwikkeling beschikt het team over diepgaande technische expertise.')}
               </p>
               <p>
-                Viesa is actief binnen sectoren zoals retail & media, automotive, vastgoed, transport & logistiek, de equine sector en muziek & entertainment. Van slimme automatiseringen tot specialistische apps en digitale platformen: innovatie, snelheid en schaalbaarheid staan altijd centraal.
+                {t('about.description_p3', 'Viesa is actief binnen sectoren zoals retail & media, automotive, vastgoed, transport & logistiek, de equine sector en muziek & entertainment.')}
               </p>
             </div>
           </motion.div>
@@ -67,7 +69,6 @@ export function AboutSection() {
                     <div className="h-12 bg-slate-50 rounded-lg border border-slate-100" />
                   </div>
                 </div>
-                <div className="absolute bottom-2 right-4 text-[8px] font-mono text-slate-300 uppercase tracking-widest"></div>
               </div>
             </motion.div>
 
@@ -104,7 +105,6 @@ export function AboutSection() {
                       <div className="h-20 bg-white/5 rounded-2xl border border-white/5" />
                       <div className="h-20 bg-white/5 rounded-2xl border border-white/5" />
                     </div>
-                    <div className="absolute bottom-4 right-8 text-[8px] font-mono text-white/20 uppercase tracking-[0.3em]"></div>
                   </div>
                 </div>
               </div>
