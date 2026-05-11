@@ -33,7 +33,8 @@ export function Footer() {
                   key={i}
                   whileHover={{ y: -3, color: 'var(--primary)' }}
                   href="#"
-                  className="w-10 h-10 flex items-center justify-center rounded-xl glass border-white/5 text-muted-foreground transition-colors"
+                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-white/5 text-muted-foreground transition-colors backdrop-blur-xl"
+                  style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
                 >
                   <Icon size={20} />
                 </motion.a>
@@ -75,7 +76,10 @@ export function Footer() {
             <h4 className="font-display font-bold text-lg mb-8 tracking-tight">Contact</h4>
             <ul className="space-y-6">
               <li className="flex items-center gap-4 group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl glass border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                <div 
+                  className="w-10 h-10 rounded-xl border border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors backdrop-blur-xl"
+                  style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
+                >
                   <Mail size={18} className="text-primary" />
                 </div>
                 <a href="mailto:contact@viesa-automations.nl" className="text-muted-foreground group-hover:text-white transition-colors font-sans">
@@ -83,7 +87,10 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-4 group cursor-pointer">
-                <div className="w-10 h-10 rounded-xl glass border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                <div 
+                  className="w-10 h-10 rounded-xl border border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors backdrop-blur-xl"
+                  style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
+                >
                   <Phone size={18} className="text-primary" />
                 </div>
                 <a href="tel:+31612345678" className="text-muted-foreground group-hover:text-white transition-colors font-sans">
@@ -91,7 +98,10 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl glass border-white/5 flex items-center justify-center mt-1">
+                <div 
+                  className="w-10 h-10 rounded-xl border border-white/5 flex items-center justify-center mt-1 backdrop-blur-xl"
+                  style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
+                >
                   <MapPin size={18} className="text-primary" />
                 </div>
                 <span className="text-muted-foreground font-sans pt-2">

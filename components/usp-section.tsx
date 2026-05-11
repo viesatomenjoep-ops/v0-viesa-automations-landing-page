@@ -47,28 +47,30 @@ export function USPSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -10 }}
-                className="p-10 glass glass-hover rounded-[40px] group transition-all duration-500 border-white/5"
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="group relative bg-gradient-to-br from-primary/20 to-transparent border border-white/10 rounded-3xl p-8 overflow-hidden flex flex-col justify-between transition-all duration-500 shadow-xl"
               >
-                {/* Icon */}
-                <div className="mb-8 inline-block p-5 bg-primary/10 rounded-2xl group-hover:bg-primary/20 transition-all duration-500 border border-primary/20">
-                  <Icon size={32} className="text-primary" />
+                <div className="relative z-10">
+                  {/* Icon */}
+                  <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">
+                    <Icon size={28} className="text-primary" />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-2xl font-display font-bold text-white mb-3 tracking-tight">
+                    {usp.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-muted-foreground leading-relaxed font-sans">
+                    {usp.description}
+                  </p>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-2xl font-display font-bold text-white mb-4 tracking-tight group-hover:text-primary transition-colors">
-                  {usp.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-muted-foreground leading-relaxed font-sans">
-                  {usp.description}
-                </p>
-
                 {/* Bottom Decor */}
-                <div className="mt-8 pt-8 border-t border-white/5 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/40">Premium Standard</span>
-                  <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <div className="relative z-10 mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/20 group-hover:text-primary/40 transition-colors">USP 0{index + 1}</span>
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
                 </div>
               </motion.div>
             );

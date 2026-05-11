@@ -19,7 +19,7 @@ export default async function AdminLayout({
 
   if (!user) {
     return (
-      <div className="admin-theme">
+      <div className="admin-theme bg-white min-h-screen">
         <LoginForm />
         <Toaster position="top-right" />
       </div>
@@ -52,7 +52,7 @@ export default async function AdminLayout({
             </div>
           </div>
         </header>
-        <main className="flex-1 bg-slate-50/30">
+        <main className="flex-1 bg-white">
           {children}
         </main>
       </SidebarInset>

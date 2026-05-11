@@ -46,11 +46,6 @@ const navItems = [
     url: '/admin/media',
     icon: ImageIcon,
   },
-  {
-    title: 'Instellingen',
-    url: '/admin/settings',
-    icon: Settings,
-  },
 ];
 
 export function AdminSidebar() {

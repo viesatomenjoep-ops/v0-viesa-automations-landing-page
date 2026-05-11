@@ -11,6 +11,7 @@ import {
   NavigationEditor
 } from '@/components/admin/list-editors';
 import { HeroEditor } from '@/components/admin/hero-editor';
+import { AboutEditor } from '@/components/admin/about-editor';
 import {
   Accordion,
   AccordionContent,
@@ -112,6 +113,23 @@ export default function AdminEditorPage() {
           </AccordionTrigger>
           <AccordionContent className="pb-10 pt-4">
             <ProcessEditor languages={languages} />
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="about" className="border-none bg-white rounded-[32px] px-8 py-2 shadow-sm border border-slate-100 hover:shadow-md transition-all">
+          <AccordionTrigger className="hover:no-underline py-6 group">
+            <div className="flex items-center gap-4 text-left">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100/50 flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+                <Users size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Over Ons</h3>
+                <p className="text-sm text-slate-400 font-normal">Onze missie, visie en bedrijfsverhaal</p>
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-10 pt-4">
+            <AboutEditor languages={languages} />
           </AccordionContent>
         </AccordionItem>
 
