@@ -7,7 +7,10 @@ import Image from 'next/image';
 import { ContactModal } from './contact-modal';
 import { useState } from 'react';
 
+import { useTranslation } from '@/hooks/use-translation';
+
 export function HeroSection() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
@@ -50,14 +53,14 @@ export function HeroSection() {
           </div>
 
           <h1 className="text-6xl md:text-8xl font-display font-bold text-slate-900 leading-[1.1] tracking-tight">
-            Uw Bedrijf op <br />
+            {t('hero.title', 'Uw Bedrijf op')} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-slate-400 to-primary bg-300% animate-gradient">
-              Autopiloot
+              {t('hero.title_accent', 'Autopiloot')}
             </span>
           </h1>
 
           <p className="text-xl md:text-2xl text-slate-500 max-w-xl font-sans leading-relaxed">
-            Van high-end platforms tot intelligente CRM-systemen: wij transformeren complexe processen in naadloze digitale ervaringen.
+            {t('hero.subtitle', 'Van high-end platforms tot intelligente CRM-systemen: wij transformeren complexe processen in naadloze digitale ervaringen.')}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 pt-4">
@@ -67,7 +70,7 @@ export function HeroSection() {
               onClick={() => setIsContactOpen(true)}
               className="group px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold flex items-center justify-center gap-2 hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.5)] transition-all duration-300"
             >
-              Start Project
+              {t('hero.cta_primary', 'Start Project')}
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
 
@@ -79,7 +82,7 @@ export function HeroSection() {
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                 <Play size={14} className="text-primary" fill="currentColor" />
               </div>
-              Onze Visie
+              {t('hero.cta_secondary', 'Onze Visie')}
             </motion.button>
           </div>
         </motion.div>

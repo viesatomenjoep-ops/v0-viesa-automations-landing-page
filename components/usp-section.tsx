@@ -2,26 +2,19 @@
 
 import { motion } from 'framer-motion';
 import { Award, Zap, DollarSign } from 'lucide-react';
+import { useTranslation } from '@/hooks/use-translation';
+import { useUSPs } from '@/hooks/use-usps';
 
-const usps = [
-  {
-    icon: Award,
-    title: 'Hoogste Kwaliteit',
-    description: 'Onze expertise en toewijding zorgen voor solutions die niet alleen werken, maar uitblinken in performance en security.',
-  },
-  {
-    icon: Zap,
-    title: 'Korte Doorlooptijd',
-    description: 'Agile methodologie en slimme workflows brengen uw project sneller naar de markt zonder concessies op kwaliteit.',
-  },
-  {
-    icon: DollarSign,
-    title: 'Eerlijke Tarieven',
-    description: 'Transparante prijzen zonder verborgen kosten. Wij geloven in langdurige partnerships gebaseerd op vertrouwen.',
-  },
-];
+const iconMap: Record<string, any> = {
+  Award,
+  Zap,
+  DollarSign
+};
 
 export function USPSection() {
+  const { t } = useTranslation();
+  const { usps, isLoading } = useUSPs();
+
   return (
     <section className="py-24 md:py-40 bg-gradient-to-b from-[#0f172a] to-[#050505] px-4 relative overflow-hidden">
       {/* Background Decorative Element */}
@@ -46,10 +39,10 @@ export function USPSection() {
         {/* USP Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {usps.map((usp, index) => {
-            const Icon = usp.icon;
+            const Icon = iconMap[usp.icon_name] || Award;
             return (
               <motion.div
-                key={index}
+                key={usp.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}

@@ -10,42 +10,13 @@ import {
 } from '@/components/ui/accordion';
 import { MessageCircle } from 'lucide-react';
 import { ContactModal } from './contact-modal';
-
-const faqs = [
-  {
-    question: 'Hoe lang duurt een typisch project?',
-    answer:
-      'Dit hangt af van de complexiteit en scope. Websites duren meestal 4-8 weken, terwijl complexe CRM-systemen 3-6 maanden kunnen duren. We geven altijd realistische timelines in de discovery fase.',
-  },
-  {
-    question: 'Wat zijn de kosten voor een project?',
-    answer:
-      'Prijzen variëren afhankelijk van requirements. We werken meestal met fixed quotes of time-and-materials. Eerst hebben we altijd een gratis consultation om scope en budget te bespreken.',
-  },
-  {
-    question: 'Ondersteun jullie integraties met externe systemen?',
-    answer:
-      'Ja, we hebben ervaring met integraties met alle populaire platforms: Salesforce, HubSpot, QuickBooks, Stripe, en meer. We bouwen custom API\'s als nodig.',
-  },
-  {
-    question: 'Bieden jullie ondersteuning na lancering?',
-    answer:
-      'Absoluut. We bieden maintenance, bug fixes, en support packages. Na lancering helpen we met monitoring en optimisatie zodat alles soepel blijft lopen.',
-  },
-  {
-    question: 'Kunnen jullie SEO voor onze website optimaliseren?',
-    answer:
-      'Ja, SEO is ingebakken in al onze website-projecten. We implementeren on-page SEO, technical SEO, en volgen best practices voor performance en indexability.',
-  },
-  {
-    question: 'Hoe gaat het met veiligheid en data privacy?',
-    answer:
-      'Veiligheid is topprioriteit. We implementeren SSL/HTTPS, data encryption, secure authentication, en volgen GDPR-richtlijnen. Regelmatige security audits zijn standaard.',
-  },
-];
+import { useTranslation } from '@/hooks/use-translation';
+import { useFAQs } from '@/hooks/use-faqs';
 
 export function FAQSection() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const { t } = useTranslation();
+  const { faqs, isLoading } = useFAQs();
 
   return (
     <>
@@ -62,10 +33,10 @@ export function FAQSection() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl md:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight">
-            Veelgestelde <span className="text-primary">Vragen</span>
+            {t('faq.header_title', 'Veelgestelde')} <span className="text-primary">{t('faq.header_title_accent', 'Vragen')}</span>
           </h2>
           <p className="text-lg md:text-xl text-slate-500 font-sans max-w-2xl mx-auto leading-relaxed">
-            Alles wat u moet weten over onze werkwijze en expertise.
+            {t('faq.header_subtitle', 'Alles wat u moet weten over onze werkwijze en expertise.')}
           </p>
         </motion.div>
 
@@ -79,7 +50,7 @@ export function FAQSection() {
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem
-                key={index}
+                key={faq.id}
                 value={`item-${index}`}
                 className="border-b border-slate-100 last:border-0 px-8"
               >
@@ -109,13 +80,13 @@ export function FAQSection() {
             <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
               <MessageCircle className="text-primary" size={32} />
             </div>
-            <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">Nog vragen?</h3>
-            <p className="text-slate-500 mb-8 max-w-sm mx-auto">We helpen graag om uw project tot een succes te maken.</p>
+            <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">{t('faq.cta_title', 'Nog vragen?')}</h3>
+            <p className="text-slate-500 mb-8 max-w-sm mx-auto">{t('faq.cta_subtitle', 'We helpen graag om uw project tot een succes te maken.')}</p>
             <button 
               onClick={() => setIsContactOpen(true)}
               className="px-10 py-4 bg-primary text-white rounded-full font-bold hover:shadow-[0_0_30px_-5px_rgba(15,83,115,0.4)] transition-all duration-300"
             >
-              Contacteer ons
+              {t('faq.cta_button', 'Contacteer ons')}
             </button>
           </div>
         </motion.div>

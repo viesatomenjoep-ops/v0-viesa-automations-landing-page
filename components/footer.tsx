@@ -3,9 +3,12 @@
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useNavigation } from '@/hooks/use-navigation';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { items: serviceLinks } = useNavigation('footer_services');
+  const { items: companyLinks } = useNavigation('footer_company');
 
   return (
     <footer className="bg-[#050505] border-t border-white/5 text-white pt-24 pb-12 relative overflow-hidden">
@@ -42,11 +45,11 @@ export function Footer() {
           <div>
             <h4 className="font-display font-bold text-lg mb-8 tracking-tight">Diensten</h4>
             <ul className="space-y-4">
-              {['Websites & Platforms', 'CRM/ERP Systemen', 'Lead Capture', 'Mobiele Apps'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors flex items-center group gap-2 font-sans">
-                    {item}
-                    <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-all -translate-y-1 translate-x-1" />
+              {serviceLinks.map((link) => (
+                <li key={link.id}>
+                  <Link href={link.url} className="text-muted-foreground hover:text-primary transition-colors flex items-center group gap-2 font-sans">
+                    {link.label}
+                    {link.url.startsWith('http') && <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-all -translate-y-1 translate-x-1" />}
                   </Link>
                 </li>
               ))}
@@ -57,10 +60,10 @@ export function Footer() {
           <div>
             <h4 className="font-display font-bold text-lg mb-8 tracking-tight">Bedrijf</h4>
             <ul className="space-y-4">
-              {['Over Ons', 'Blog', 'Cases', 'Privacy Policy'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors font-sans">
-                    {item}
+              {companyLinks.map((link) => (
+                <li key={link.id}>
+                  <Link href={link.url} className="text-muted-foreground hover:text-primary transition-colors font-sans">
+                    {link.label}
                   </Link>
                 </li>
               ))}
