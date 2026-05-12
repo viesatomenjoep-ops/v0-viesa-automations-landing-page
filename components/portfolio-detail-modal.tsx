@@ -33,13 +33,14 @@ export function PortfolioDetailModal({ isOpen, onClose, item, languageId, onCont
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center z-[110] p-4 md:p-8 pointer-events-none overflow-y-auto">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 40 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 40 }}
-              className="bg-white w-full max-w-5xl rounded-[32px] md:rounded-[48px] shadow-2xl overflow-hidden pointer-events-auto relative border border-slate-100 my-auto"
-            >
+          <div className="fixed inset-0 z-[110] overflow-y-auto pointer-events-none">
+            <div className="min-h-full flex items-center justify-center p-4 md:p-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 40 }}
+                className="bg-white w-full max-w-5xl rounded-[32px] md:rounded-[48px] shadow-2xl overflow-hidden pointer-events-auto relative border border-slate-100"
+              >
               {/* Close Button */}
               <button
                 onClick={onClose}
@@ -123,8 +124,9 @@ export function PortfolioDetailModal({ isOpen, onClose, item, languageId, onCont
               </div>
             </motion.div>
           </div>
-        </>
-      )}
+        </div>
+      </>
+    )}
     </AnimatePresence>
   );
 }
