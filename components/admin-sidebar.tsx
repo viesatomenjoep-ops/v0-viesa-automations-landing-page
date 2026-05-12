@@ -12,6 +12,7 @@ import {
   Bell
 } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 
 import {
@@ -72,15 +73,15 @@ export function AdminSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-slate-100 bg-white">
       <SidebarHeader className="h-20 flex items-center px-6 mb-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+        <Link href="/" className="flex items-center gap-3 cursor-pointer group">
+          <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
             <Image src="/viesa-logo.png" alt="Logo" width={24} height={24} className="object-contain" />
           </div>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
             <span className="font-display font-bold text-slate-900 tracking-tight leading-none">VIESA</span>
             <span className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mt-1">Automations</span>
           </div>
-        </div>
+        </Link>
       </SidebarHeader>
 
       <SidebarContent className="px-4">

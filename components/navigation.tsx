@@ -43,7 +43,7 @@ export function Navigation() {
         <div className={`relative flex justify-between items-center h-16 px-6 rounded-full transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-2xl border border-slate-100' : 'bg-transparent'
           }`}>
           {/* Logo */}
-          <Link href="#" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group">
             <motion.div
               whileHover={{ rotate: 10, scale: 1.1 }}
               className="relative w-10 h-10"

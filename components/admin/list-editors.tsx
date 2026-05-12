@@ -2580,3 +2580,341 @@ export function ContactEditor({ languages }: { languages: Language[] }) {
     </div>
   );
 }
+
+// --- PORTFOLIO EDITOR ---
+export function PortfolioEditor({ languages }: { languages: Language[] }) {
+  const [items, setItems] = useState<any[]>([]);
+  const [headerKeys, setHeaderKeys] = useState<any[]>([]);
+  const [headerTranslations, setHeaderTranslations] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [activeTab, setActiveTab] = useState('');
+  const supabase = createClient();
+
+  useEffect(() => {
+    fetchItems();
+    if (languages.length > 0) setActiveTab(languages[0].id);
+  }, [languages]);
+
+  const initializePortfolioSection = async () => {
+    setIsInitializing(true);
+    try {
+      let { data: section } = await supabase.from('sections').select('id').eq('name', 'portfolio').limit(1);
+      if (!section || section.length === 0) {
+        const { data: newSection } = await supabase.from('sections').insert({ name: 'portfolio', display_name: 'Portfolio' }).select().single();
+        section = [newSection];
+      }
+      const sectionId = Array.isArray(section) ? section[0].id : section.id;
+
+      const targetKeys = [
+        { key: 'header_title', type: 'text', defaults: { nl: 'Onze Projecten', en: 'Our Projects', es: 'Nuestros Proyectos' } },
+        { key: 'header_subtitle', type: 'textarea', defaults: { nl: 'Een kijkje in de innovatieve oplossingen die we voor onze klanten hebben gebouwd.', en: 'A look at the innovative solutions we have built for our clients.', es: 'Un vistazo a las soluciones innovadoras que hemos construido para nuestros clientes.' } },
+        { key: 'cta_title', type: 'text', defaults: { nl: 'Klaar voor de volgende stap?', en: 'Ready for the next step?', es: '¿Listo para el siguiente paso?' } },
+        { key: 'cta_subtitle', type: 'textarea', defaults: { nl: 'Laten we samen kijken hoe we jouw processen kunnen automatiseren en optimaliseren.', en: 'Let’s look together at how we can automate and optimize your processes.', es: 'Veamos juntos cómo podemos automatizar y optimizar sus procesos.' } },
+        { key: 'cta_button_text', type: 'text', defaults: { nl: 'Contact Opnemen', en: 'Get in Touch', es: 'Contactar' } }
+      ];
+
+      for (const tk of targetKeys) {
+        let { data: existingKey } = await supabase.from('content_keys').select('id').eq('section_id', sectionId).eq('key', tk.key).limit(1);
+        let keyId = existingKey && existingKey.length > 0 ? existingKey[0].id : null;
+
+        if (!keyId) {
+          const { data: newKey } = await supabase.from('content_keys').insert({ section_id: sectionId, key: tk.key, field_type: tk.type }).select().single();
+          if (newKey) keyId = newKey.id;
+        }
+
+        if (keyId) {
+          for (const lang of languages) {
+            const { data: existingTrans } = await supabase.from('translations').select('id').eq('content_key_id', keyId).eq('language_id', lang.id).limit(1);
+            if (!existingTrans || existingTrans.length === 0) {
+              const val = (tk.defaults as any)[lang.code.toLowerCase()] || (tk.defaults as any).nl;
+              await supabase.from('translations').insert({ content_key_id: keyId, language_id: lang.id, value: val });
+            }
+          }
+        }
+      }
+
+      toast.success('Portfolio header content gesynchroniseerd!');
+      await fetchItems();
+    } catch (error: any) {
+      toast.error('Sync mislukt: ' + error.message);
+    } finally {
+      setIsInitializing(false);
+    }
+  };
+
+  async function fetchItems() {
+    try {
+      let { data: section } = await supabase.from('sections').select('id').eq('name', 'portfolio').limit(1);
+      if (section && section.length > 0) {
+        const { data: cKeys } = await supabase.from('content_keys').select('*').eq('section_id', section[0].id);
+        setHeaderKeys(cKeys || []);
+        if (cKeys && cKeys.length > 0) {
+          const { data: hTrans } = await supabase.from('translations').select('*').in('content_key_id', cKeys.map(k => k.id));
+          const hTransMap: Record<string, string> = {};
+          hTrans?.forEach(t => { hTransMap[`${t.content_key_id}_${t.language_id}`] = t.value || ''; });
+          setHeaderTranslations(hTransMap);
+        }
+      }
+
+      const { data: pItems } = await supabase.from('portfolio_items').select(`
+        *,
+        translations:portfolio_item_translations(*)
+      `).order('sort_order', { ascending: true });
+
+      const formatted = (pItems || []).map(item => ({
+        ...item,
+        translations: (item.translations || []).reduce((acc: any, t: any) => {
+          acc[t.language_id] = { title: t.title, description: t.description };
+          return acc;
+        }, {} as any)
+      }));
+      setItems(formatted);
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const addItem = async () => {
+    const { data, error } = await supabase.from('portfolio_items').insert({
+      image_url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=2426',
+      sort_order: items.length
+    }).select().single();
+
+    if (error) return toast.error('Fout bij toevoegen');
+    setItems([...items, { ...data, translations: {} }]);
+    toast.success('Project toegevoegd');
+  };
+
+  const deleteItem = async (id: string) => {
+    const { error } = await supabase.from('portfolio_items').delete().eq('id', id);
+    if (error) return toast.error('Fout bij verwijderen');
+    setItems(items.filter(i => i.id !== id));
+    toast.success('Project verwijderd');
+  };
+
+  const handleItemChange = (id: string, langId: string, field: string, value: string) => {
+    const newItems = [...items];
+    const idx = newItems.findIndex(item => item.id === id);
+    if (!newItems[idx].translations[langId]) newItems[idx].translations[langId] = {};
+    newItems[idx].translations[langId][field] = value;
+    setItems(newItems);
+  };
+
+  const handleUrlChange = (id: string, url: string) => {
+    const newItems = [...items];
+    const idx = newItems.findIndex(item => item.id === id);
+    newItems[idx].image_url = url;
+    setItems(newItems);
+  };
+
+  const handleAutoTranslate = async (langId: string, langCode: string) => {
+    setIsSaving(true);
+    try {
+      const nlLang = languages.find(l => l.code === 'nl');
+      if (!nlLang) return;
+
+      // Translate Header
+      const newHeaderTrans = { ...headerTranslations };
+      for (const key of headerKeys) {
+        const nlVal = headerTranslations[`${key.id}_${nlLang.id}`];
+        if (nlVal) {
+          newHeaderTrans[`${key.id}_${langId}`] = await translateText(nlVal, langCode);
+        }
+      }
+      setHeaderTranslations(newHeaderTrans);
+
+      // Translate Items
+      const newItems = [...items];
+      for (const item of newItems) {
+        const nlTrans = item.translations[nlLang.id];
+        if (nlTrans) {
+          if (!item.translations[langId]) item.translations[langId] = {};
+          if (nlTrans.title) item.translations[langId].title = await translateText(nlTrans.title, langCode);
+          if (nlTrans.description) item.translations[langId].description = await translateText(nlTrans.description, langCode);
+        }
+      }
+      setItems(newItems);
+      toast.success('Automatisch vertaald!');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const saveForLanguage = async (langId: string) => {
+    setIsSaving(true);
+    try {
+      // Save Header
+      const headerUpdates = headerKeys.map(key => ({
+        content_key_id: key.id,
+        language_id: langId,
+        value: headerTranslations[`${key.id}_${langId}`] || ''
+      }));
+      if (headerUpdates.length > 0) {
+        await supabase.from('translations').upsert(headerUpdates, { onConflict: 'content_key_id,language_id' });
+      }
+
+      // Save Items
+      for (const item of items) {
+        await supabase.from('portfolio_items').update({ image_url: item.image_url }).eq('id', item.id);
+        const trans = item.translations[langId];
+        if (trans) {
+          await supabase.from('portfolio_item_translations').upsert({
+            portfolio_item_id: item.id,
+            language_id: langId,
+            title: trans.title || '',
+            description: trans.description || ''
+          }, { onConflict: 'portfolio_item_id,language_id' });
+        }
+      }
+      toast.success('Portfolio opgeslagen');
+    } catch (error: any) {
+      toast.error('Opslaan mislukt: ' + error.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (isLoading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-primary" /></div>;
+
+  return (
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <div className="px-6 md:px-8 pt-6 md:pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-50 pb-6 gap-4">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-purple-50 text-purple-600 rounded-2xl shrink-0">
+            <ImageIcon className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold">Portfolio Beheer</h3>
+            <p className="text-sm text-slate-500">Beheer de projecten die op de portfolio pagina staan.</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <Button variant="outline" size="sm" onClick={initializePortfolioSection} disabled={isInitializing} className="hidden md:flex border-amber-100 text-amber-600 hover:bg-amber-50 rounded-xl h-10 gap-2">
+            {isInitializing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Database className="w-4 h-4" />}
+            Sync Header
+          </Button>
+          <TabsList className="bg-slate-100 p-1 rounded-xl">
+            {languages.map(l => (
+              <TabsTrigger key={l.id} value={l.id} className="rounded-lg px-6 py-2 transition-all font-bold text-slate-500 data-[state=active]:bg-primary data-[state=active]:text-white">
+                {l.code.toUpperCase()}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <Button onClick={addItem} variant="outline" size="sm" className="hidden sm:flex rounded-xl border-primary/20 text-primary hover:bg-blue-50 transition-all h-10">
+            <Plus className="w-4 h-4 mr-2" /> Project
+          </Button>
+        </div>
+      </div>
+
+      {languages.map(lang => (
+        <TabsContent key={lang.id} value={lang.id} className="p-6 md:p-8 space-y-8">
+          {/* Section Header Editor */}
+          <div className="p-6 bg-slate-50/50 rounded-[32px] border border-slate-100 space-y-6">
+            <div className="flex items-center gap-2 mb-2 ml-1">
+              <Globe className="w-4 h-4 text-primary" />
+              <h4 className="font-bold text-slate-700">Pagina Header</h4>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {headerKeys.map(key => (
+                <div key={key.id} className={key.field_type === 'textarea' ? "md:col-span-2 space-y-2" : "space-y-2"}>
+                  <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">
+                    {key.key === 'header_title' && 'Pagina Titel'}
+                    {key.key === 'header_subtitle' && 'Pagina Ondertitel'}
+                    {key.key === 'cta_title' && 'CTA Titel'}
+                    {key.key === 'cta_subtitle' && 'CTA Ondertitel'}
+                    {key.key === 'cta_button_text' && 'CTA Knop Tekst'}
+                    {!['header_title', 'header_subtitle', 'cta_title', 'cta_subtitle', 'cta_button_text'].includes(key.key) && key.key.replace('_', ' ')}
+                  </Label>
+                  {key.field_type === 'textarea' ? (
+                    <Textarea
+                      value={headerTranslations[`${key.id}_${lang.id}`] || ''}
+                      onChange={(e) => setHeaderTranslations(prev => ({ ...prev, [`${key.id}_${lang.id}`]: e.target.value }))}
+                      className="bg-white rounded-xl border-slate-300 focus:border-primary font-medium shadow-sm min-h-[100px] text-slate-900"
+                    />
+                  ) : (
+                    <Input
+                      value={headerTranslations[`${key.id}_${lang.id}`] || ''}
+                      onChange={(e) => setHeaderTranslations(prev => ({ ...prev, [`${key.id}_${lang.id}`]: e.target.value }))}
+                      className="bg-white rounded-xl h-11 border-slate-300 focus:border-primary font-bold shadow-sm text-slate-900"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between mb-2 ml-1">
+              <div className="flex items-center gap-2">
+                <ImageIcon className="w-4 h-4 text-primary" />
+                <h4 className="font-bold text-slate-700">Projecten Lijst</h4>
+              </div>
+              <Button onClick={addItem} variant="ghost" size="sm" className="sm:hidden text-primary">
+                <Plus size={16} />
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-6">
+              {items.map((item, idx) => (
+                <div key={item.id} className="p-4 md:p-6 bg-white rounded-[32px] border border-slate-100 flex flex-col lg:flex-row gap-6 hover:shadow-md transition-all group relative">
+                  <div className="w-full lg:w-48 h-32 rounded-2xl bg-slate-100 overflow-hidden shrink-0 border border-slate-200">
+                    <img src={item.image_url} alt="Preview" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Project {idx + 1}</span>
+                      <Button onClick={() => deleteItem(item.id)} variant="ghost" size="sm" className="text-red-400 h-8 rounded-lg hover:bg-red-50">Verwijderen</Button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Afbeelding URL</Label>
+                        <Input
+                          value={item.image_url || ''}
+                          onChange={(e) => handleUrlChange(item.id, e.target.value)}
+                          className="bg-white rounded-xl border-slate-200 focus:border-primary text-slate-900 font-medium h-11 shadow-sm w-full"
+                        />
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Titel</Label>
+                          <Input
+                            value={item.translations[lang.id]?.title || ''}
+                            onChange={(e) => handleItemChange(item.id, lang.id, 'title', e.target.value)}
+                            className="bg-white rounded-xl border-primary/20 focus:border-primary text-primary font-bold h-11 shadow-sm w-full"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Beschrijving</Label>
+                          <Textarea
+                            value={item.translations[lang.id]?.description || ''}
+                            onChange={(e) => handleItemChange(item.id, lang.id, 'description', e.target.value)}
+                            className="bg-white rounded-xl border-slate-200 focus:border-primary text-slate-900 font-medium min-h-[44px] shadow-sm w-full"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center pt-6 border-t border-slate-50">
+            {lang.code !== 'nl' ? (
+              <Button variant="outline" onClick={() => handleAutoTranslate(lang.id, lang.code)} disabled={isSaving} className="w-full sm:w-auto rounded-xl px-6 h-12 border-blue-200 text-blue-600 hover:bg-blue-50 font-bold">
+                <Languages className="w-4 h-4 mr-2" /> Vertaal vanuit NL
+              </Button>
+            ) : <div />}
+            <Button onClick={() => saveForLanguage(lang.id)} disabled={isSaving} className="w-full sm:w-auto rounded-xl px-8 h-12 font-bold bg-primary text-white">
+              {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} {lang.name} Portfolio Opslaan
+            </Button>
+          </div>
+        </TabsContent>
+      ))}
+    </Tabs>
+  );
+}

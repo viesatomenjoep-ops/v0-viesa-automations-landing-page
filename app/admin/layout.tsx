@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Bell } from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { LoginForm } from '@/components/admin/login-form';
 
@@ -47,9 +48,9 @@ export default async function AdminLayout({
             <Button variant="ghost" size="icon" className="rounded-xl text-slate-400">
               <Bell className="w-5 h-5" />
             </Button>
-            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+            <Link href="/" className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden hover:border-primary transition-colors cursor-pointer">
               <Image src="/viesa-logo.png" alt="VIESA" width={24} height={24} className="object-contain" />
-            </div>
+            </Link>
           </div>
         </header>
         <main className="flex-1 bg-white">

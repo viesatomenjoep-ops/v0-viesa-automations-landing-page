@@ -21,7 +21,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           {/* Company Info */}
           <div className="space-y-6">
-            <Link href="#" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
               <span className="text-2xl font-display font-bold tracking-tight">
                 VIESA <span className="text-primary">Automations</span>
               </span>

@@ -10,6 +10,7 @@ import { Loader2, Lock, Mail, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export function LoginForm() {
   const router = useRouter();
@@ -45,9 +46,9 @@ export function LoginForm() {
       <Card className="w-full max-w-[440px] border-none shadow-2xl shadow-black/5 bg-card rounded-[32px] overflow-hidden">
         <CardHeader className="pt-12 pb-8 text-center space-y-4">
           <div className="flex justify-center mb-4">
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
-              <Image src="/viesa-logo.png" alt="VIESA" width={48} height={48} className="object-contain" />
-            </div>
+            <Link href="/" className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm hover:border-primary transition-colors cursor-pointer group">
+              <Image src="/viesa-logo.png" alt="VIESA" width={48} height={48} className="object-contain group-hover:scale-105 transition-transform" />
+            </Link>
           </div>
           <div>
             <CardTitle className="text-3xl font-display font-bold text-foreground tracking-tight">Admin <span className="text-primary">Portal</span></CardTitle>

@@ -9,6 +9,7 @@ type Translations = Record<string, string>;
 interface TranslationContextType {
   translations: Translations;
   locale: string;
+  languageId: string | null;
   setLocale: (locale: string) => void;
   t: (key: string, defaultValue?: string) => string;
   isLoading: boolean;
@@ -19,6 +20,7 @@ const TranslationContext = createContext<TranslationContextType | undefined>(und
 export function TranslationProvider({ children }: { children: ReactNode }) {
   const [translations, setTranslations] = useState<Translations>({});
   const [locale, setLocale] = useState<string>('nl'); // Default to Dutch
+  const [languageId, setLanguageId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const supabase = createClient();
 
@@ -47,6 +49,7 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       
       const lang = languages && languages.length > 0 ? languages[0] : null;
       if (!lang) return;
+      setLanguageId(lang.id);
 
       // 2. Fetch all translations for this language
       // We join with content_keys and sections to get the full key (e.g., 'hero.title')
@@ -91,7 +94,7 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <TranslationContext.Provider value={{ translations, locale, setLocale, t, isLoading }}>
+    <TranslationContext.Provider value={{ translations, locale, languageId, setLocale, t, isLoading }}>
       {children}
     </TranslationContext.Provider>
   );
