@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from '@/hooks/use-translation';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface ContactModalProps {
 
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { t } = useTranslation();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,9 +59,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -mr-16 -mt-16" />
 
                   <div className="relative z-10">
-                    <h2 className="text-3xl font-display font-bold mb-4 tracking-tight">Laten we bouwen.</h2>
+                    <h2 className="text-3xl font-display font-bold mb-4 tracking-tight">{t('contact.title', 'Laten we bouwen.')}</h2>
                     <p className="text-slate-400 text-sm leading-relaxed">
-                      Deel uw visie en wij transformeren het in een digitale realiteit.
+                      {t('contact.subtitle', 'Deel uw visie en wij transformeren het in een digitale realiteit.')}
                     </p>
                   </div>
 
@@ -67,11 +69,11 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 text-xs text-slate-400">
                         <CheckCircle2 size={14} className="text-primary" />
-                        <span>Snelle opvolging binnen 24u</span>
+                        <span>{t('contact.feature_1', 'Snelle opvolging binnen 24u')}</span>
                       </div>
                       <div className="flex items-center gap-3 text-xs text-slate-400">
                         <CheckCircle2 size={14} className="text-primary" />
-                        <span>Gratis consultgesprek</span>
+                        <span>{t('contact.feature_2', 'Gratis consultgesprek')}</span>
                       </div>
                     </div>
                   </div>
@@ -91,37 +93,45 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                       >
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Voornaam</label>
+                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
+                              {t('contact.label_first_name', 'Voornaam')}
+                            </label>
                             <input
                               required
                               type="text"
-                              placeholder="Voornaam"
+                              placeholder={t('contact.label_first_name', 'Voornaam')}
                               className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
                             />
                           </div>
                           <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Achternaam</label>
+                            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
+                              {t('contact.label_last_name', 'Achternaam')}
+                            </label>
                             <input
                               required
                               type="text"
-                              placeholder="Achternaam"
+                              placeholder={t('contact.label_last_name', 'Achternaam')}
                               className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
                             />
                           </div>
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">E-mailadres</label>
+                          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
+                            {t('contact.label_email', 'E-mailadres')}
+                          </label>
                           <input
                             required
                             type="email"
-                            placeholder="email"
+                            placeholder={t('contact.label_email', 'email')}
                             className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
                           />
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Project Type</label>
+                          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
+                            {t('contact.label_project_type', 'Project Type')}
+                          </label>
                           <select className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 appearance-none">
                             <option>Website / Platform</option>
                             <option>CRM / ERP Systeem</option>
@@ -132,11 +142,13 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Beschrijving</label>
+                          <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
+                            {t('contact.label_description', 'Beschrijving')}
+                          </label>
                           <textarea
                             required
                             rows={4}
-                            placeholder="Vertel ons kort over uw project en doelen..."
+                            placeholder={t('contact.label_description', 'Vertel ons kort over uw project en doelen...')}
                             className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 resize-none"
                           ></textarea>
                         </div>
@@ -145,7 +157,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                           type="submit"
                           className="w-full py-4 bg-primary text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 mt-4 group"
                         >
-                          Verstuur Aanvraag
+                          {t('contact.button_submit', 'Verstuur Aanvraag')}
                           <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </button>
                       </motion.form>
@@ -159,8 +171,12 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6">
                           <CheckCircle2 size={40} />
                         </div>
-                        <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">Aanvraag Ontvangen!</h3>
-                        <p className="text-slate-500">We nemen binnen 24 uur contact met u op.</p>
+                        <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">
+                          {t('contact.success_title', 'Aanvraag Ontvangen!')}
+                        </h3>
+                        <p className="text-slate-500">
+                          {t('contact.success_message', 'We nemen binnen 24 uur contact met u op.')}
+                        </p>
                       </motion.div>
                     )}
                   </AnimatePresence>

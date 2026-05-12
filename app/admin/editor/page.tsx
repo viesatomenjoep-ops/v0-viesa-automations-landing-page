@@ -7,6 +7,8 @@ import {
   FAQEditor,
   TextSectionEditor,
   ProcessEditor,
+  USPEditor,
+  ContactEditor,
   TrustEditor,
   NavigationEditor
 } from '@/components/admin/list-editors';
@@ -116,6 +118,23 @@ export default function AdminEditorPage() {
           </AccordionContent>
         </AccordionItem>
 
+        <AccordionItem value="usps" className="border-none bg-white rounded-[32px] px-8 py-2 shadow-sm border border-slate-100 hover:shadow-md transition-all">
+          <AccordionTrigger className="hover:no-underline py-6 group">
+            <div className="flex items-center gap-4 text-left">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100/50 flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
+                <Sparkles size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Waarom Viesa</h3>
+                <p className="text-sm text-slate-400 font-normal">Onze unieke verkooppunten (USP's)</p>
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-10 pt-4">
+            <USPEditor languages={languages} />
+          </AccordionContent>
+        </AccordionItem>
+
         <AccordionItem value="about" className="border-none bg-white rounded-[32px] px-8 py-2 shadow-sm border border-slate-100 hover:shadow-md transition-all">
           <AccordionTrigger className="hover:no-underline py-6 group">
             <div className="flex items-center gap-4 text-left">
@@ -147,6 +166,23 @@ export default function AdminEditorPage() {
           </AccordionTrigger>
           <AccordionContent className="pb-10 pt-4">
             <FAQEditor languages={languages} />
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="contact" className="border-none bg-white rounded-[32px] px-8 py-2 shadow-sm border border-slate-100 hover:shadow-md transition-all">
+          <AccordionTrigger className="hover:no-underline py-6 group">
+            <div className="flex items-center gap-4 text-left">
+              <div className="w-12 h-12 rounded-2xl bg-pink-50 border border-pink-100/50 flex items-center justify-center text-pink-600 group-hover:scale-110 transition-transform">
+                <HelpCircle size={24} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">Contact Modal</h3>
+                <p className="text-sm text-slate-400 font-normal">Teksten voor het contactformulier</p>
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent className="pb-10 pt-4">
+            <ContactEditor languages={languages} />
           </AccordionContent>
         </AccordionItem>
 

@@ -21,9 +21,9 @@ export function ChatWidget() {
 
     // Simulate bot response
     setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
-        text: 'Bedankt voor je bericht! Een van onze experts zal zo snel mogelijk contact met je opnemen. Wil je alvast een gratis consult inplannen?' 
+      setMessages(prev => [...prev, {
+        role: 'bot',
+        text: 'Bedankt voor je bericht! Een van onze experts zal zo snel mogelijk contact met je opnemen. Wil je alvast een gratis consult inplannen?'
       }]);
     }, 1000);
   };
@@ -53,7 +53,7 @@ export function ChatWidget() {
                   </div>
                 </div>
               </div>
-              <button 
+              <button
                 onClick={() => setIsOpen(false)}
                 className="p-2 hover:bg-white/10 rounded-full transition-colors"
               >
@@ -70,11 +70,10 @@ export function ChatWidget() {
                   key={i}
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${
-                    msg.role === 'user' 
-                      ? 'bg-primary text-white rounded-tr-none shadow-lg shadow-primary/10' 
+                  <div className={`max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
+                      ? 'bg-primary text-white rounded-tr-none shadow-lg shadow-primary/10'
                       : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none shadow-sm'
-                  }`}>
+                    }`}>
                     {msg.text}
                   </div>
                 </motion.div>
@@ -108,12 +107,11 @@ export function ChatWidget() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${
-          isOpen ? 'bg-slate-900 text-white rotate-90' : 'bg-primary text-white'
-        }`}
+        className={`w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 ${isOpen ? 'bg-slate-900 text-white rotate-90' : 'bg-primary text-white'
+          }`}
       >
         {isOpen ? <X size={28} /> : <MessageSquare size={28} />}
-        
+
         {!isOpen && (
           <span className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 border-4 border-white rounded-full" />
         )}

@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Loader2, Save, Globe, Users, Database } from 'lucide-react';
+import { Loader2, Save, Globe, Users, Database, Languages } from 'lucide-react';
+import { translateText } from '@/lib/translate';
 import {
   Select,
   SelectContent,
@@ -83,15 +84,23 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
       if (!section) throw new Error("Could not find or create 'about' section");
 
       const targetKeys = [
-        { key: 'about.title', type: 'input' },
-        { key: 'about.title_accent', type: 'input' },
-        { key: 'about.description_p1', type: 'textarea' },
-        { key: 'about.description_p2', type: 'textarea' },
-        { key: 'about.description_p3', type: 'textarea' },
+        { key: 'title', type: 'text' },
+        { key: 'title_accent', type: 'text' },
+        { key: 'description_p1', type: 'textarea' },
+        { key: 'description_p2', type: 'textarea' },
+        { key: 'description_p3', type: 'textarea' },
       ];
 
       for (const tk of targetKeys) {
-        const { data: existingKey } = await supabase.from('content_keys').select('id').eq('section_id', section.id).eq('key', tk.key).single();
+        // Use .limit(1) instead of .single() to be resilient against duplicates
+        const { data: existingKeys } = await supabase
+          .from('content_keys')
+          .select('id')
+          .eq('section_id', section.id)
+          .or(`key.eq.${tk.key},key.eq.about.${tk.key}`)
+          .limit(1);
+
+        const existingKey = existingKeys && existingKeys.length > 0 ? existingKeys[0] : null;
 
         let keyId = existingKey?.id;
         if (!keyId) {
@@ -102,15 +111,15 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
 
         const nlLang = languages.find(l => l.code === 'nl');
         if (nlLang) {
-          const { data: existingTrans } = await supabase.from('translations').select('id').eq('content_key_id', keyId).eq('language_id', nlLang.id).single();
+          const { data: existingTrans } = await supabase.from('translations').select('id').eq('content_key_id', keyId).eq('language_id', nlLang.id).limit(1);
 
-          if (!existingTrans) {
+          if (!existingTrans || existingTrans.length === 0) {
             const defaultContent: Record<string, string> = {
-              'about.title': 'Technologie met een Visie',
-              'about.title_accent': 'ons',
-              'about.description_p1': 'Viesa Automations ontwikkelt innovatieve automatiseringsoplossingen en digitale platformen voor bedrijven die sneller, slimmer en efficiënter willen werken.',
-              'about.description_p2': 'Met jarenlange ervaring in programmeren en softwareontwikkeling beschikt het team over diepgaande technische expertise. Daarnaast heeft Viesa een eigen AI-model ontwikkeld.',
-              'about.description_p3': 'Viesa is actief binnen sectoren zoals retail & media, automotive, vastgoed, transport & logistiek, de equine sector en muziek & entertainment.',
+              'title': 'Technologie met een Visie',
+              'title_accent': 'ons',
+              'description_p1': 'Viesa Automations ontwikkelt innovatieve automatiseringsoplossingen en digitale platformen voor bedrijven die sneller, slimmer en efficiënter willen werken.',
+              'description_p2': 'Met jarenlange ervaring in programmeren en softwareontwikkeling beschikt het team over diepgaande technische expertise. Daarnaast heeft Viesa een eigen AI-model ontwikkeld.',
+              'description_p3': 'Viesa is actief binnen sectoren zoals retail & media, automotive, vastgoed, transport & logistiek, de equine sector en muziek & entertainment.',
             };
             await supabase.from('translations').insert({ content_key_id: keyId, language_id: nlLang.id, value: defaultContent[tk.key] || '' });
           }
@@ -130,12 +139,46 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
     setTranslations(prev => ({ ...prev, [`${keyId}_${langId}`]: value }));
   };
 
+  const handleAutoTranslate = async (langId: string, langCode: string) => {
+    setIsSaving(true);
+    try {
+      const nlLang = languages.find(l => l.code === 'nl');
+      if (!nlLang) return;
+      const newTrans = { ...translations };
+      
+      const fieldKeys = ['title', 'title_accent', 'description_p1', 'description_p2', 'description_p3'];
+      
+      for (const fk of fieldKeys) {
+        const key = keys.find(k => k.key === fk) || keys.find(k => k.key === `about.${fk}`);
+        if (key) {
+          const nlText = translations[`${key.id}_${nlLang.id}`];
+          if (nlText) {
+            newTrans[`${key.id}_${langId}`] = await translateText(nlText, langCode);
+          }
+        }
+      }
+      setTranslations(newTrans);
+      toast.success('Automatisch vertaald! Vergeet niet op te slaan.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleSave = async (langId: string) => {
     setIsSaving(true);
     try {
-      const activeKeyIds = keys
-        .filter(key => ['about.title', 'about.title_accent', 'about.description_p1', 'about.description_p2', 'about.description_p3'].includes(key.key))
-        .map(k => k.id);
+      const fieldKeys = ['title', 'title_accent', 'description_p1', 'description_p2', 'description_p3'];
+      const activeKeyIds: string[] = [];
+
+      fieldKeys.forEach(fk => {
+        const key = keys.find(k => k.key === fk) || keys.find(k => k.key === `about.${fk}`);
+        if (key) activeKeyIds.push(key.id);
+      });
+
+      if (activeKeyIds.length === 0) {
+        toast.error('Geen velden gevonden om op te slaan. Klik op "Sync Velden".');
+        return;
+      }
 
       const updates = activeKeyIds.map(keyId => ({
         content_key_id: keyId,
@@ -178,7 +221,7 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
                 className="hidden md:flex border-amber-100 text-amber-600 hover:bg-amber-50 rounded-xl h-10 gap-2"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Database className="w-4 h-4" />}
-                Sync
+                Sync Velden
               </Button>
             )}
             <div className="sm:hidden w-full">
@@ -210,13 +253,21 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
         {languages.map(lang => (
           <TabsContent key={lang.id} value={lang.id} className="p-6 md:p-8 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              {['about.title', 'about.title_accent'].map(keyName => {
-                const key = keys.find(k => k.key === keyName);
-                if (!key) return null;
+              {[
+                { label: 'Hoofdtitel', key: 'title' },
+                { label: 'Accent Tekst', key: 'title_accent' }
+              ].map(field => {
+                const key = keys.find(k => k.key === field.key) || keys.find(k => k.key === `about.${field.key}`);
+                if (!key) return (
+                  <div key={field.key} className="h-12 flex items-center justify-between px-4 rounded-2xl bg-slate-50 border border-dashed border-slate-200 w-full">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{field.label} niet gesynchroniseerd</span>
+                    <Button variant="ghost" size="sm" onClick={initializeAboutSection} className="h-7 text-[10px] uppercase font-bold text-primary hover:bg-white rounded-lg">Sync</Button>
+                  </div>
+                );
                 return (
                   <div key={key.id} className="space-y-3 w-full">
                     <Label className="text-xs font-bold uppercase tracking-widest text-primary">
-                      {key.key === 'about.title' ? 'Hoofdtitel' : 'Accent Tekst'}
+                      {field.label}
                     </Label>
                     <Input
                       value={translations[`${key.id}_${lang.id}`] || ''}
@@ -229,14 +280,22 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
             </div>
 
             <div className="space-y-6">
-              {['about.description_p1', 'about.description_p2', 'about.description_p3'].map(keyName => {
-                const key = keys.find(k => k.key === keyName);
-                if (!key) return null;
+              {[
+                { label: 'Paragraaf 1', key: 'description_p1' },
+                { label: 'Paragraaf 2', key: 'description_p2' },
+                { label: 'Paragraaf 3', key: 'description_p3' }
+              ].map(field => {
+                const key = keys.find(k => k.key === field.key) || keys.find(k => k.key === `about.${field.key}`);
+                if (!key) return (
+                  <div key={field.key} className="min-h-[60px] flex items-center justify-between px-4 rounded-2xl bg-slate-50 border border-dashed border-slate-200 w-full">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">{field.label} niet gesynchroniseerd</span>
+                    <Button variant="ghost" size="sm" onClick={initializeAboutSection} className="h-7 text-[10px] uppercase font-bold text-primary hover:bg-white rounded-lg">Sync</Button>
+                  </div>
+                );
                 return (
                   <div key={key.id} className="space-y-3 w-full">
                     <Label className="text-xs font-bold uppercase tracking-widest text-primary">
-                      {key.key === 'about.description_p1' ? 'Paragraaf 1' :
-                        key.key === 'about.description_p2' ? 'Paragraaf 2' : 'Paragraaf 3'}
+                      {field.label}
                     </Label>
                     <Textarea
                       value={translations[`${key.id}_${lang.id}`] || ''}
@@ -248,7 +307,12 @@ export function AboutEditor({ languages }: { languages: Language[] }) {
               })}
             </div>
 
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-between items-center pt-4">
+              {lang.code !== 'nl' ? (
+                <Button variant="outline" onClick={() => handleAutoTranslate(lang.id, lang.code)} disabled={isSaving} className="w-full sm:w-auto h-12 px-6 rounded-2xl border-blue-200 text-blue-600 hover:bg-blue-50 font-bold">
+                  <Languages className="w-4 h-4 mr-2" /> Vertaal vanuit NL
+                </Button>
+              ) : <div />}
               <Button
                 onClick={() => handleSave(lang.id)}
                 disabled={isSaving}

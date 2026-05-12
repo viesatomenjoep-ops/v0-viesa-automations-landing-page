@@ -4,11 +4,13 @@ import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowUpRight } from 'lu
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useNavigation } from '@/hooks/use-navigation';
+import { useTranslation } from '@/hooks/use-translation';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const { items: serviceLinks } = useNavigation('footer_services');
   const { items: companyLinks } = useNavigation('footer_company');
+  const { t } = useTranslation();
 
   return (
     <footer className="bg-[#050505] border-t border-white/5 text-white pt-24 pb-12 relative overflow-hidden">
@@ -25,7 +27,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-xs font-sans">
-              Transforming businesses through intelligent automation and high-end digital solutions. Your partner in the next era of tech.
+              {t('footer.description', 'Transforming businesses through intelligent automation and high-end digital solutions. Your partner in the next era of tech.')}
             </p>
             <div className="flex gap-4">
               {[Github, Linkedin, Twitter].map((Icon, i) => (
@@ -44,7 +46,9 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-display font-bold text-lg mb-8 tracking-tight">Diensten</h4>
+            <h4 className="font-display font-bold text-lg mb-8 tracking-tight">
+              {t('footer.header_services', 'Diensten')}
+            </h4>
             <ul className="space-y-4">
               {serviceLinks.map((link) => (
                 <li key={link.id}>
@@ -56,10 +60,12 @@ export function Footer() {
               ))}
             </ul>
           </div>
-
+ 
           {/* Company */}
           <div>
-            <h4 className="font-display font-bold text-lg mb-8 tracking-tight">Bedrijf</h4>
+            <h4 className="font-display font-bold text-lg mb-8 tracking-tight">
+              {t('footer.header_company', 'Bedrijf')}
+            </h4>
             <ul className="space-y-4">
               {companyLinks.map((link) => (
                 <li key={link.id}>
@@ -70,13 +76,15 @@ export function Footer() {
               ))}
             </ul>
           </div>
-
+ 
           {/* Contact */}
           <div>
-            <h4 className="font-display font-bold text-lg mb-8 tracking-tight">Contact</h4>
+            <h4 className="font-display font-bold text-lg mb-8 tracking-tight">
+              {t('footer.header_contact', 'Contact')}
+            </h4>
             <ul className="space-y-6">
               <li className="flex items-center gap-4 group cursor-pointer">
-                <div 
+                <div
                   className="w-10 h-10 rounded-xl border border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors backdrop-blur-xl"
                   style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
                 >
@@ -87,7 +95,7 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-center gap-4 group cursor-pointer">
-                <div 
+                <div
                   className="w-10 h-10 rounded-xl border border-white/5 flex items-center justify-center group-hover:border-primary/50 transition-colors backdrop-blur-xl"
                   style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
                 >
@@ -98,7 +106,7 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-4">
-                <div 
+                <div
                   className="w-10 h-10 rounded-xl border border-white/5 flex items-center justify-center mt-1 backdrop-blur-xl"
                   style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
                 >

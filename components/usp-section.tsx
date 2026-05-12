@@ -29,10 +29,10 @@ export function USPSection() {
           className="text-center mb-24"
         >
           <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-tight">
-            Waarom <span className="text-primary text-glow">VIESA Automations</span>?
+            {t('usp.header_title', 'Waarom')} <span className="text-primary text-glow">{t('usp.header_title_accent', 'VIESA Automations?')}</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-sans leading-relaxed">
-            Wij onderscheiden ons door een unieke combinatie van technische expertise, snelheid en integriteit.
+            {t('usp.header_subtitle', 'Wij onderscheiden ons door een unieke combinatie van technische expertise, snelheid en integriteit.')}
           </p>
         </motion.div>
 

@@ -39,12 +39,13 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       // 1. Fetch the language ID for the current locale
-      const { data: lang } = await supabase
+      const { data: languages } = await supabase
         .from('languages')
         .select('id')
         .eq('code', locale)
-        .single();
+        .limit(1);
       
+      const lang = languages && languages.length > 0 ? languages[0] : null;
       if (!lang) return;
 
       // 2. Fetch all translations for this language
@@ -68,7 +69,13 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       data?.forEach((item: any) => {
         const sectionName = item.content_key.section.name;
         const keyName = item.content_key.key;
-        transMap[`${sectionName}.${keyName}`] = item.value;
+        
+        // Handle both clean keys and legacy prefixed keys (e.g., "about.title" vs "title")
+        const fullKey = keyName.startsWith(`${sectionName}.`) 
+          ? keyName 
+          : `${sectionName}.${keyName}`;
+          
+        transMap[fullKey] = item.value;
       });
 
       setTranslations(transMap);
