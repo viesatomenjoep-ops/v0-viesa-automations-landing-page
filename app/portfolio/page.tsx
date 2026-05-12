@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, CheckCircle2, Layout, Sparkles, MessageCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ContactModal } from '@/components/contact-modal';
+import { PortfolioDetailModal } from '@/components/portfolio-detail-modal';
 
 export default function PortfolioPage() {
   return <PortfolioContent />;
@@ -20,6 +21,8 @@ export function PortfolioContent() {
   const [items, setItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -82,7 +85,11 @@ export function PortfolioContent() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group bg-white rounded-[40px] border border-slate-100 overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
+                  onClick={() => {
+                    setSelectedItem(item);
+                    setIsDetailModalOpen(true);
+                  }}
+                  className="group bg-white rounded-[40px] border border-slate-100 overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 cursor-pointer"
                 >
                   <div className="aspect-[16/10] overflow-hidden relative">
                     <img 
@@ -145,6 +152,16 @@ export function PortfolioContent() {
       <Footer />
       <ChatWidget />
       <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
+      <PortfolioDetailModal 
+        isOpen={isDetailModalOpen} 
+        onClose={() => setIsDetailModalOpen(false)} 
+        item={selectedItem} 
+        languageId={languageId} 
+        onContactClick={() => {
+          setIsDetailModalOpen(false);
+          setIsContactModalOpen(true);
+        }}
+      />
     </main>
   );
 }

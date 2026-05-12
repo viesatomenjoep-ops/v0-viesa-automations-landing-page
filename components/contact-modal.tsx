@@ -38,34 +38,34 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center z-[110] p-4 pointer-events-none">
+          <div className="fixed inset-0 flex items-center justify-center z-[110] p-4 pointer-events-none overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto relative border border-slate-100"
+              className="bg-white w-full max-w-2xl rounded-3xl md:rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto relative border border-slate-100 my-auto"
             >
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute top-6 right-6 p-2 hover:bg-slate-50 rounded-full transition-colors z-20 text-slate-400 hover:text-slate-900"
+                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 hover:bg-slate-50 rounded-full transition-colors z-20 text-slate-400 hover:text-slate-900"
               >
                 <X size={24} />
               </button>
-
-              <div className="flex flex-col md:flex-row">
+ 
+              <div className="flex flex-col md:flex-row h-full">
                 {/* Left Side: Info */}
-                <div className="md:w-1/3 bg-slate-900 p-10 text-white flex flex-col justify-between relative overflow-hidden">
+                <div className="md:w-1/3 bg-slate-900 p-8 md:p-10 text-white flex flex-col justify-between relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -mr-16 -mt-16" />
-
+ 
                   <div className="relative z-10">
-                    <h2 className="text-3xl font-display font-bold mb-4 tracking-tight">{t('contact.title', 'Laten we bouwen.')}</h2>
+                    <h2 className="text-2xl md:text-3xl font-display font-bold mb-4 tracking-tight">{t('contact.title', 'Laten we bouwen.')}</h2>
                     <p className="text-slate-400 text-sm leading-relaxed">
                       {t('contact.subtitle', 'Deel uw visie en wij transformeren het in een digitale realiteit.')}
                     </p>
                   </div>
-
-                  <div className="mt-20 relative z-10">
+ 
+                  <div className="mt-8 md:mt-20 relative z-10">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3 text-xs text-slate-400">
                         <CheckCircle2 size={14} className="text-primary" />
@@ -78,9 +78,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     </div>
                   </div>
                 </div>
-
+ 
                 {/* Right Side: Form */}
-                <div className="md:w-2/3 p-10 relative">
+                <div className="md:w-2/3 p-8 md:p-10 relative">
                   <AnimatePresence mode="wait">
                     {!isSubmitted ? (
                       <motion.form
@@ -89,9 +89,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onSubmit={handleSubmit}
-                        className="space-y-5"
+                        className="space-y-4 md:space-y-5"
                       >
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
                               {t('contact.label_first_name', 'Voornaam')}
@@ -115,7 +115,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                             />
                           </div>
                         </div>
-
+ 
                         <div className="space-y-2">
                           <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
                             {t('contact.label_email', 'E-mailadres')}
@@ -127,7 +127,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                             className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
                           />
                         </div>
-
+ 
                         <div className="space-y-2">
                           <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
                             {t('contact.label_project_type', 'Project Type')}
@@ -140,19 +140,19 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                             <option>Anders</option>
                           </select>
                         </div>
-
+ 
                         <div className="space-y-2">
                           <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
                             {t('contact.label_description', 'Beschrijving')}
                           </label>
                           <textarea
                             required
-                            rows={4}
+                            rows={3}
                             placeholder={t('contact.label_description', 'Vertel ons kort over uw project en doelen...')}
                             className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 resize-none"
                           ></textarea>
                         </div>
-
+ 
                         <button
                           type="submit"
                           className="w-full py-4 bg-primary text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 mt-4 group"
@@ -166,15 +166,15 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         key="success"
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="h-full flex flex-col items-center justify-center text-center py-20"
+                        className="h-full flex flex-col items-center justify-center text-center py-12 md:py-20"
                       >
-                        <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6">
-                          <CheckCircle2 size={40} />
+                        <div className="w-16 h-16 md:w-20 md:h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6">
+                          <CheckCircle2 size={32} />
                         </div>
-                        <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">
+                        <h3 className="text-xl md:text-2xl font-display font-bold text-slate-900 mb-2">
                           {t('contact.success_title', 'Aanvraag Ontvangen!')}
                         </h3>
-                        <p className="text-slate-500">
+                        <p className="text-slate-500 text-sm md:text-base">
                           {t('contact.success_message', 'We nemen binnen 24 uur contact met u op.')}
                         </p>
                       </motion.div>
