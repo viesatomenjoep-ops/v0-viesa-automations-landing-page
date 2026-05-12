@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, CheckCircle2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from '@/hooks/use-translation';
 
 interface ContactModalProps {
@@ -13,6 +13,17 @@ interface ContactModalProps {
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,18 +44,22 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[100]"
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center z-[110] p-4 pointer-events-none overflow-y-auto">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white w-full max-w-2xl rounded-3xl md:rounded-[40px] shadow-2xl overflow-hidden pointer-events-auto relative border border-slate-100 my-auto"
-            >
+          <div 
+            className="fixed inset-0 z-[110] overflow-y-auto"
+            onClick={onClose}
+          >
+            <div className="min-h-full flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white w-full max-w-2xl rounded-3xl md:rounded-[48px] shadow-2xl overflow-hidden relative border border-slate-100 my-auto"
+              >
               {/* Close Button */}
               <button
                 onClick={onClose}
@@ -184,8 +199,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
               </div>
             </motion.div>
           </div>
-        </>
-      )}
+        </div>
+      </>
+    )}
     </AnimatePresence>
   );
 }

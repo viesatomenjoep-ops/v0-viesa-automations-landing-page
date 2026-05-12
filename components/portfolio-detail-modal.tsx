@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, MessageCircle, ArrowRight, Calendar, Tag, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from '@/hooks/use-translation';
+import { useEffect } from 'react';
 
 interface PortfolioDetailModalProps {
   isOpen: boolean;
@@ -15,6 +16,18 @@ interface PortfolioDetailModalProps {
 
 export function PortfolioDetailModal({ isOpen, onClose, item, languageId, onContactClick }: PortfolioDetailModalProps) {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!item) return null;
 
   const trans = item.translations?.find((tr: any) => tr.language_id === languageId) || item.translations?.[0];
@@ -28,18 +41,21 @@ export function PortfolioDetailModal({ isOpen, onClose, item, languageId, onCont
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl z-[100]"
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 z-[110] overflow-y-auto pointer-events-none">
+          <div 
+            className="fixed inset-0 z-[110] overflow-y-auto"
+            onClick={onClose}
+          >
             <div className="min-h-full flex items-center justify-center p-4 md:p-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 40 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 40 }}
-                className="bg-white w-full max-w-5xl rounded-[32px] md:rounded-[48px] shadow-2xl overflow-hidden pointer-events-auto relative border border-slate-100"
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white w-full max-w-5xl rounded-[32px] md:rounded-[48px] shadow-2xl overflow-hidden relative border border-slate-100"
               >
               {/* Close Button */}
               <button
