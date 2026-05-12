@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/client';
 import { useTranslation } from '@/hooks/use-translation';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/footer';
-import { ChatWidget } from '@/components/chat-widget';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, CheckCircle2, Layout, Sparkles, MessageCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -150,7 +149,6 @@ export function PortfolioContent() {
       </section>
 
       <Footer />
-      <ChatWidget />
       <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
       <PortfolioDetailModal 
         isOpen={isDetailModalOpen} 

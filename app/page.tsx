@@ -7,7 +7,6 @@ import { USPSection } from '@/components/usp-section';
 import { AboutSection } from '@/components/about-section';
 import { FAQSection } from '@/components/faq-section';
 import { Footer } from '@/components/footer';
-import { ChatWidget } from '@/components/chat-widget';
 
 export default function Page() {
   return (
@@ -21,7 +20,6 @@ export default function Page() {
       <AboutSection />
       <FAQSection />
       <Footer />
-      <ChatWidget />
     </main>
   );
 }
