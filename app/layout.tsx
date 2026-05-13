@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   title: 'VIESA Automations | IT Automation Solutions',
   description: 'Van high-end websites tot complexe CRM-systemen: wij automatiseren uw groei van A tot Z. VIESA Automations - Your Partner in Digital Automation.',
   generator: 'v0.app',
+  icons: {
+    icon: '/viesa-logo.png',
+    apple: '/viesa-logo.png',
+  },
 }
 
 import { TranslationProvider } from '@/hooks/use-translation';
