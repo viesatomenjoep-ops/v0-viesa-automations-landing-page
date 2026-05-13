@@ -18,8 +18,25 @@ export function FAQSection() {
   const { t } = useTranslation();
   const { faqs, isLoading } = useFAQs();
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <section id="faq" className="py-24 md:py-40 bg-gradient-to-b from-slate-50 to-white px-4 relative overflow-hidden">
         {/* Background accent */}
         <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-200 to-transparent pointer-events-none" />

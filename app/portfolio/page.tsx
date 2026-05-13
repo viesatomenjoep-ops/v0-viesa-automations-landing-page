@@ -93,7 +93,7 @@ export function PortfolioContent() {
                   <div className="aspect-[16/10] overflow-hidden relative">
                     <img 
                       src={item.image_url} 
-                      alt={trans?.title}
+                      alt={`${trans?.title || 'Project'} | Portfolio Case Study | VIESA Automations`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">

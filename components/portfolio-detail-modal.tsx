@@ -70,7 +70,7 @@ export function PortfolioDetailModal({ isOpen, onClose, item, languageId, onCont
                 <div className="w-full aspect-[16/10] md:aspect-[21/9] relative bg-slate-100 overflow-hidden group">
                   <img
                     src={item.image_url}
-                    alt={trans?.title}
+                    alt={`${trans?.title || 'Project'} | Case Study Detail | VIESA Automations`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
