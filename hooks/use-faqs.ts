@@ -13,19 +13,20 @@ export interface FAQItem {
 export function useFAQs() {
   const [faqs, setFaqs] = useState<FAQItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { locale } = useTranslation();
+  const { languageId, isLoading: isLangLoading } = useTranslation();
   const supabase = createClient();
 
   useEffect(() => {
-    fetchFAQs();
-  }, [locale]);
+    if (languageId) {
+      fetchFAQs(languageId);
+    } else if (!isLangLoading) {
+      setIsLoading(false);
+    }
+  }, [languageId, isLangLoading]);
 
-  async function fetchFAQs() {
+  async function fetchFAQs(langId: string) {
     setIsLoading(true);
     try {
-      const { data: lang } = await supabase.from('languages').select('id').eq('code', locale).single();
-      if (!lang) return;
-
       const { data } = await supabase
         .from('faq_items')
         .select(`
@@ -35,7 +36,7 @@ export function useFAQs() {
             answer
           )
         `)
-        .eq('faq_item_translations.language_id', lang.id)
+        .eq('faq_item_translations.language_id', langId)
         .order('sort_order', { ascending: true });
 
       const formatted = (data || []).map((item: any) => ({

@@ -41,18 +41,23 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       // 1. Fetch the language ID for the current locale
-      const { data: languages } = await supabase
+      const { data: languages, error: langError } = await supabase
         .from('languages')
         .select('id')
         .eq('code', locale)
         .limit(1);
       
+      if (langError) throw langError;
+      
       const lang = languages && languages.length > 0 ? languages[0] : null;
-      if (!lang) return;
+      if (!lang) {
+        console.warn(`Language not found for locale: ${locale}`);
+        return;
+      }
+      
       setLanguageId(lang.id);
 
       // 2. Fetch all translations for this language
-      // We join with content_keys and sections to get the full key (e.g., 'hero.title')
       const { data, error } = await supabase
         .from('translations')
         .select(`
@@ -73,7 +78,6 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
         const sectionName = item.content_key.section.name;
         const keyName = item.content_key.key;
         
-        // Handle both clean keys and legacy prefixed keys (e.g., "about.title" vs "title")
         const fullKey = keyName.startsWith(`${sectionName}.`) 
           ? keyName 
           : `${sectionName}.${keyName}`;

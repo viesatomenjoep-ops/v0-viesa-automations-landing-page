@@ -14,19 +14,20 @@ export interface USPItem {
 export function useUSPs() {
   const [usps, setUsps] = useState<USPItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { locale } = useTranslation();
+  const { languageId, isLoading: isLangLoading } = useTranslation();
   const supabase = createClient();
 
   useEffect(() => {
-    fetchUSPs();
-  }, [locale]);
+    if (languageId) {
+      fetchUSPs(languageId);
+    } else if (!isLangLoading) {
+      setIsLoading(false);
+    }
+  }, [languageId, isLangLoading]);
 
-  async function fetchUSPs() {
+  async function fetchUSPs(langId: string) {
     setIsLoading(true);
     try {
-      const { data: lang } = await supabase.from('languages').select('id').eq('code', locale).single();
-      if (!lang) return;
-
       const { data } = await supabase
         .from('usp_items')
         .select(`
@@ -37,7 +38,7 @@ export function useUSPs() {
             description
           )
         `)
-        .eq('usp_item_translations.language_id', lang.id)
+        .eq('usp_item_translations.language_id', langId)
         .order('sort_order', { ascending: true });
 
       const formatted = (data || []).map((item: any) => ({

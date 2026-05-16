@@ -14,19 +14,20 @@ export interface ProcessStep {
 export function useProcess() {
   const [steps, setSteps] = useState<ProcessStep[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { locale } = useTranslation();
+  const { languageId, isLoading: isLangLoading } = useTranslation();
   const supabase = createClient();
 
   useEffect(() => {
-    fetchProcess();
-  }, [locale]);
+    if (languageId) {
+      fetchProcess(languageId);
+    } else if (!isLangLoading) {
+      setIsLoading(false);
+    }
+  }, [languageId, isLangLoading]);
 
-  async function fetchProcess() {
+  async function fetchProcess(langId: string) {
     setIsLoading(true);
     try {
-      const { data: lang } = await supabase.from('languages').select('id').eq('code', locale).single();
-      if (!lang) return;
-
       const { data } = await supabase
         .from('process_steps')
         .select(`
@@ -37,7 +38,7 @@ export function useProcess() {
             description
           )
         `)
-        .eq('process_step_translations.language_id', lang.id)
+        .eq('process_step_translations.language_id', langId)
         .order('sort_order', { ascending: true });
 
       const formatted = (data || []).map((item: any) => ({

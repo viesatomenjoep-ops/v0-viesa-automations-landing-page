@@ -67,13 +67,14 @@ export function ProcessSection() {
         </motion.div>
 
         {/* Steps */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative"
-        >
+        {!isLoading && steps.length > 0 && (
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative"
+          >
           {/* Connector lines (hidden on mobile) */}
           <div className="hidden lg:block absolute top-[28px] left-[60px] right-[60px] h-[1px] bg-gradient-to-r from-primary/30 via-secondary/30 to-primary/30 opacity-50" />
 
@@ -114,7 +115,8 @@ export function ProcessSection() {
               </motion.div>
             );
           })}
-        </motion.div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

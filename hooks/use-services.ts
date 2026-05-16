@@ -15,24 +15,20 @@ export interface ServiceItem {
 export function useServices() {
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { locale } = useTranslation();
+  const { languageId, isLoading: isLangLoading } = useTranslation();
   const supabase = createClient();
 
   useEffect(() => {
-    fetchServices();
-  }, [locale]);
+    if (languageId) {
+      fetchServices(languageId);
+    } else if (!isLangLoading) {
+      setIsLoading(false);
+    }
+  }, [languageId, isLangLoading]);
 
-  async function fetchServices() {
+  async function fetchServices(langId: string) {
     setIsLoading(true);
     try {
-      const { data: lang } = await supabase
-        .from('languages')
-        .select('id')
-        .eq('code', locale)
-        .single();
-      
-      if (!lang) return;
-
       const { data, error } = await supabase
         .from('service_items')
         .select(`
@@ -44,7 +40,7 @@ export function useServices() {
             description
           )
         `)
-        .eq('service_item_translations.language_id', lang.id)
+        .eq('service_item_translations.language_id', langId)
         .order('sort_order', { ascending: true });
 
       if (error) throw error;

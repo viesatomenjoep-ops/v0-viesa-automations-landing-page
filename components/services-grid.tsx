@@ -68,13 +68,14 @@ export function ServicesGrid() {
         </motion.div>
 
         {/* Bento Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto md:auto-rows-[240px]"
-        >
+        {!isLoading && services.length > 0 && (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto md:auto-rows-[240px]"
+          >
           {services.map((service, index) => {
             const Icon = iconMap[service.icon_name] || Globe;
             const style = serviceCardStyles[index % serviceCardStyles.length];
@@ -107,7 +108,8 @@ export function ServicesGrid() {
               </motion.div>
             );
           })}
-        </motion.div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

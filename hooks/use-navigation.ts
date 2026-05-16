@@ -14,19 +14,20 @@ export interface NavItem {
 export function useNavigation(menuType: string) {
   const [items, setItems] = useState<NavItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { locale } = useTranslation();
+  const { languageId, isLoading: isLangLoading } = useTranslation();
   const supabase = createClient();
 
   useEffect(() => {
-    fetchNavigation();
-  }, [locale, menuType]);
+    if (languageId) {
+      fetchNavigation(languageId);
+    } else if (!isLangLoading) {
+      setIsLoading(false);
+    }
+  }, [languageId, menuType, isLangLoading]);
 
-  async function fetchNavigation() {
+  async function fetchNavigation(langId: string) {
     setIsLoading(true);
     try {
-      const { data: lang } = await supabase.from('languages').select('id').eq('code', locale).single();
-      if (!lang) return;
-
       const { data } = await supabase
         .from('navigation_items')
         .select(`
@@ -45,7 +46,7 @@ export function useNavigation(menuType: string) {
         id: item.id,
         url: item.url,
         sort_order: item.sort_order,
-        label: item.translations.find((t: any) => t.language_id === lang.id)?.label || '',
+        label: item.translations.find((t: any) => t.language_id === langId)?.label || '',
       }));
 
       setItems(formatted);
