@@ -32,7 +32,7 @@ export function HeroSection() {
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-primary/10 rounded-full blur-[100px]" />
 
         {/* Grainy Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/noise.svg')]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -134,6 +134,7 @@ export function HeroSection() {
                       src="/viesa-logo.png"
                       alt="VIESA Logo"
                       fill
+                      priority
                       className="object-contain drop-shadow-[0_0_15px_rgba(15,83,115,0.8)]"
                     />
                   </motion.div>
