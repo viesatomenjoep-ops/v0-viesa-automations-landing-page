@@ -1,11 +1,12 @@
 export function JsonLd() {
-  const organizationSchema = {
+  const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "ProfessionalService",
     "name": "VIESA Automations",
     "url": "https://viesa-automations.nl",
     "logo": "https://viesa-automations.nl/viesa-logo.png",
-    "description": "Transforming businesses through intelligent automation and high-end digital solutions.",
+    "image": "https://viesa-automations.nl/viesa-logo.png",
+    "description": "Van high-end websites tot complexe CRM-systemen: wij automatiseren uw groei van A tot Z in Breda en omstreken.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Breda",
@@ -14,8 +15,11 @@ export function JsonLd() {
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+31-6-12345678",
-      "contactType": "customer service"
-    }
+      "contactType": "customer service",
+      "availableLanguage": ["Dutch", "English"]
+    },
+    "areaServed": "Netherlands",
+    "priceRange": "$$$"
   };
 
   const websiteSchema = {
@@ -34,7 +38,7 @@ export function JsonLd() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
       />
       <script
         type="application/ld+json"
