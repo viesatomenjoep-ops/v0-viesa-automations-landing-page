@@ -10,6 +10,8 @@ export interface ServiceItem {
   description: string;
   icon_name: string;
   sort_order: number;
+  features_title?: string;
+  features?: string;
 }
 
 export function useServices() {
@@ -37,7 +39,9 @@ export function useServices() {
           sort_order,
           translations:service_item_translations (
             title,
-            description
+            description,
+            features_title,
+            features
           )
         `)
         .eq('service_item_translations.language_id', langId)
@@ -51,6 +55,8 @@ export function useServices() {
         sort_order: item.sort_order,
         title: item.translations[0]?.title || '',
         description: item.translations[0]?.description || '',
+        features_title: item.translations[0]?.features_title || '',
+        features: item.translations[0]?.features || '',
       }));
 
       setServices(formattedServices);

@@ -21,7 +21,7 @@ export async function POST(req: Request) {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        from: 'Viesa Automations <onboarding@resend.dev>',
+        from: 'Viesa Automations <contact@viesa-automations.nl>',
         to: 'contact@viesa-automations.nl',
         reply_to: email,
         subject: `Nieuwe aanvraag van ${firstName} ${lastName}`,

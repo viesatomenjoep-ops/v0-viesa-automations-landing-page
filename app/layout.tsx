@@ -66,8 +66,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="nl" className={`${outfit.variable} ${inter.variable} bg-background dark scroll-smooth`}>
-      <body className="font-sans antialiased text-foreground selection:bg-primary selection:text-primary-foreground">
+    <html lang="nl" className={`${outfit.variable} ${inter.variable} bg-background dark scroll-smooth overflow-x-hidden`}>
+      <body className="font-sans antialiased text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden">
         <JsonLd />
         <TranslationProvider>
           {children}

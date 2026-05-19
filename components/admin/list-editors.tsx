@@ -496,7 +496,12 @@ export function ServicesEditor({ languages }: { languages: Language[] }) {
       const formatted = (sItems || []).map(item => ({
         ...item,
         translations: (trans || []).filter(t => t.service_item_id === item.id).reduce((acc, t) => {
-          acc[t.language_id] = { title: t.title, description: t.description };
+          acc[t.language_id] = { 
+            title: t.title, 
+            description: t.description,
+            features_title: t.features_title,
+            features: t.features
+          };
           return acc;
         }, {} as any)
       }));
@@ -566,6 +571,12 @@ export function ServicesEditor({ languages }: { languages: Language[] }) {
         if (item.translations[nlLang.id]?.description) {
           item.translations[langId] = { ...item.translations[langId], description: await translateText(item.translations[nlLang.id].description, langCode) };
         }
+        if (item.translations[nlLang.id]?.features_title) {
+          item.translations[langId] = { ...item.translations[langId], features_title: await translateText(item.translations[nlLang.id].features_title, langCode) };
+        }
+        if (item.translations[nlLang.id]?.features) {
+          item.translations[langId] = { ...item.translations[langId], features: await translateText(item.translations[nlLang.id].features, langCode) };
+        }
       }
       setItems(newItems);
       toast.success('Automatisch vertaald!');
@@ -585,7 +596,9 @@ export function ServicesEditor({ languages }: { languages: Language[] }) {
         service_item_id: item.id,
         language_id: langId,
         title: item.translations[langId]?.title || '',
-        description: item.translations[langId]?.description || ''
+        description: item.translations[langId]?.description || '',
+        features_title: item.translations[langId]?.features_title || null,
+        features: item.translations[langId]?.features || null
       }));
       await supabase.from('service_item_translations').upsert(updates, { onConflict: 'service_item_id,language_id' });
 
@@ -749,12 +762,32 @@ export function ServicesEditor({ languages }: { languages: Language[] }) {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-bold uppercase tracking-widest text-primary">Beschrijving</Label>
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-primary">Beschrijving (Kort voor op de kaart)</Label>
                     <Textarea
                       value={item.translations[lang.id]?.description || ''}
                       onChange={(e) => handleItemChange(item.id, lang.id, 'description', e.target.value)}
-                      className="bg-white rounded-xl border-primary/20 focus:border-primary text-primary font-bold min-h-[100px] shadow-sm w-full"
+                      className="bg-white rounded-xl border-primary/20 focus:border-primary text-primary font-bold min-h-[80px] shadow-sm w-full"
                       placeholder="Wat houdt deze dienst in?"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-primary">Modal: Features Titel</Label>
+                      <Input
+                        value={item.translations[lang.id]?.features_title || ''}
+                        onChange={(e) => handleItemChange(item.id, lang.id, 'features_title', e.target.value)}
+                        className="bg-white rounded-xl h-11 border-primary/20 focus:border-primary text-primary font-bold shadow-sm w-full"
+                        placeholder="Bijv. Waarom deze service?"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-primary">Modal: Features Lijst (Één per regel)</Label>
+                    <Textarea
+                      value={item.translations[lang.id]?.features || ''}
+                      onChange={(e) => handleItemChange(item.id, lang.id, 'features', e.target.value)}
+                      className="bg-white rounded-xl border-primary/20 focus:border-primary text-primary font-bold min-h-[120px] shadow-sm w-full"
+                      placeholder="Naadloze integratie met uw bestaande systemen&#10;Schaalbare architectuur&#10;24/7 monitoring"
                     />
                   </div>
                 </div>

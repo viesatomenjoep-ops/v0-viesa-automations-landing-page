@@ -12,6 +12,8 @@ interface ContactModalProps {
 
 export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -25,14 +27,34 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     };
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Simulate submission
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      onClose();
-    }, 3000);
+    setIsSubmitting(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          onClose();
+        }, 5000);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || 'Er is iets misgegaan. Probeer het later opnieuw.');
+      }
+    } catch (err) {
+      setError('Netwerkfout. Controleer uw verbinding.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -113,6 +135,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                             </label>
                             <input
                               required
+                              name="firstName"
                               type="text"
                               placeholder={t('contact.label_first_name', 'Voornaam')}
                               className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
@@ -124,6 +147,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                             </label>
                             <input
                               required
+                              name="lastName"
                               type="text"
                               placeholder={t('contact.label_last_name', 'Achternaam')}
                               className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
@@ -137,6 +161,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                           </label>
                           <input
                             required
+                            name="email"
                             type="email"
                             placeholder={t('contact.label_email', 'email')}
                             className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900"
@@ -147,7 +172,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                           <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">
                             {t('contact.label_project_type', 'Project Type')}
                           </label>
-                          <select className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 appearance-none">
+                          <select 
+                            name="projectType"
+                            className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 appearance-none"
+                          >
                             <option>Website / Platform</option>
                             <option>CRM / ERP Systeem</option>
                             <option>AI Chatbot / Automatisering</option>
@@ -162,18 +190,30 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                           </label>
                           <textarea
                             required
+                            name="description"
                             rows={3}
                             placeholder={t('contact.label_description', 'Vertel ons kort over uw project en doelen...')}
                             className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none transition-all text-slate-900 resize-none"
                           ></textarea>
                         </div>
  
+                        {error && (
+                          <p className="text-red-500 text-xs font-medium ml-1">{error}</p>
+                        )}
+
                         <button
                           type="submit"
-                          className="w-full py-4 bg-primary text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 mt-4 group"
+                          disabled={isSubmitting}
+                          className="w-full py-4 bg-primary text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 mt-4 group disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                          {t('contact.button_submit', 'Verstuur Aanvraag')}
-                          <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          {isSubmitting ? (
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          ) : (
+                            <>
+                              {t('contact.button_submit', 'Verstuur Aanvraag')}
+                              <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                            </>
+                          )}
                         </button>
                       </motion.form>
                     ) : (

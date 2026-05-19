@@ -44,13 +44,7 @@ export function HeroSection() {
           style={{ opacity }}
           className="space-y-8"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono tracking-widest uppercase">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            Next-Gen Automation
-          </div>
+
 
           <h1 className="text-6xl md:text-8xl font-display font-bold text-slate-900 leading-[1.1] tracking-tight">
             {t('hero.title', 'Uw Bedrijf op')} <br />

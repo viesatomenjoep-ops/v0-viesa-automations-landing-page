@@ -12,7 +12,7 @@ const Footer = dynamic(() => import('@/components/footer').then(mod => mod.Foote
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-viesa-slate">
+    <main className="min-h-screen bg-viesa-slate overflow-x-hidden">
       <Navigation />
       <HeroSection />
       <TrustSection />

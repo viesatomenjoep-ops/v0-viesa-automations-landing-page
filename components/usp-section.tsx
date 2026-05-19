@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { Award, Zap, DollarSign } from 'lucide-react';
 import { useTranslation } from '@/hooks/use-translation';
 import { useUSPs } from '@/hooks/use-usps';
@@ -15,66 +15,108 @@ export function USPSection() {
   const { t } = useTranslation();
   const { usps, isLoading } = useUSPs();
 
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 500, damping: 50 });
+  const springY = useSpring(mouseY, { stiffness: 500, damping: 50 });
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
   return (
-    <section className="py-24 md:py-40 bg-gradient-to-b from-[#0f172a] to-[#050505] px-4 relative overflow-hidden">
-      {/* Background Decorative Element */}
-      <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
+    <section 
+      className="py-24 md:py-32 bg-slate-50 px-4 relative overflow-hidden group"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Grid Background */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none" 
+        style={{ 
+          backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)', 
+          backgroundSize: '40px 40px',
+          opacity: 0.15 
+        }} 
+      />
 
+      {/* Interactive Cursor Glow */}
+      <motion.div
+        className="absolute pointer-events-none z-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+        style={{
+          background: 'radial-gradient(circle, rgba(15,83,115,0.12) 0%, rgba(15,83,115,0) 60%)',
+          width: '800px',
+          height: '800px',
+          left: springX,
+          top: springY,
+          x: '-50%',
+          y: '-50%',
+        }}
+      />
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-24"
-        >
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 tracking-tight">
-            {t('usp.header_title', 'Waarom')} <span className="text-primary text-glow">{t('usp.header_title_accent', 'VIESA Automations?')}</span>
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-sans leading-relaxed">
-            {t('usp.header_subtitle', 'Wij onderscheiden ons door een unieke combinatie van technische expertise, snelheid en integriteit.')}
-          </p>
-        </motion.div>
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          
+          {/* Left: Sticky Header Area */}
+          <div className="lg:w-5/12">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="sticky top-32"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-mono tracking-widest uppercase mb-6">
+                Onze Aanpak
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-slate-900 mb-6 tracking-tight leading-[1.1]">
+                {t('usp.header_title', 'Waarom')} <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-slate-400">
+                  {t('usp.header_title_accent', 'VIESA Automations?')}
+                </span>
+              </h2>
+              <p className="text-lg text-slate-600 font-sans leading-relaxed">
+                {t('usp.header_subtitle', 'Wij onderscheiden ons door een unieke combinatie van technische expertise, snelheid en integriteit.')}
+              </p>
+            </motion.div>
+          </div>
 
-        {/* USP Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {usps.map((usp, index) => {
-            const Icon = iconMap[usp.icon_name] || Award;
-            return (
-              <motion.div
-                key={usp.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className="group relative bg-gradient-to-br from-primary/20 to-transparent border border-white/10 rounded-3xl p-8 overflow-hidden flex flex-col justify-between transition-all duration-500 shadow-xl"
-              >
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className="mb-6 inline-block p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-primary/30 transition-colors">
-                    <Icon size={28} className="text-primary" />
-                  </div>
+          {/* Right: Vertical Features List */}
+          <div className="lg:w-7/12 flex flex-col">
+            <div className="border-t border-slate-200">
+              {usps.map((usp, index) => {
+                const Icon = iconMap[usp.icon_name] || Award;
+                return (
+                  <motion.div
+                    key={usp.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    className="group border-b border-slate-200 py-10 md:py-16 flex flex-col sm:flex-row gap-6 md:gap-10 items-start hover:bg-white transition-colors px-4 sm:px-8 -mx-4 sm:-mx-8 rounded-3xl"
+                  >
+                    <div className="flex-shrink-0">
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500">
+                        <Icon size={32} strokeWidth={1.5} />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="text-sm font-mono text-primary/60 font-bold tracking-widest mb-3">
+                        0{index + 1}
+                      </div>
+                      <h3 className="text-2xl md:text-3xl font-display font-bold text-slate-900 mb-4 group-hover:text-primary transition-colors">
+                        {usp.title}
+                      </h3>
+                      <p className="text-slate-600 leading-relaxed text-lg">
+                        {usp.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
 
-                  {/* Title */}
-                  <h3 className="text-2xl font-display font-bold text-white mb-3 tracking-tight">
-                    {usp.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-muted-foreground leading-relaxed font-sans">
-                    {usp.description}
-                  </p>
-                </div>
-
-                {/* Bottom Decor */}
-                <div className="relative z-10 mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
-                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/20 group-hover:text-primary/40 transition-colors">USP 0{index + 1}</span>
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary/40" />
-                </div>
-              </motion.div>
-            );
-          })}
         </div>
       </div>
     </section>
