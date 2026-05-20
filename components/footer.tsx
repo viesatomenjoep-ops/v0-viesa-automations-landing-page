@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, ArrowUpRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Instagram, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useNavigation } from '@/hooks/use-navigation';
@@ -30,17 +30,26 @@ export function Footer() {
               {t('footer.description', 'Transforming businesses through intelligent automation and high-end digital solutions. Your partner in the next era of tech.')}
             </p>
             <div className="flex gap-4">
-              {[Github, Linkedin, Twitter].map((Icon, i) => (
-                <motion.a
-                  key={i}
-                  whileHover={{ y: -3, color: 'var(--primary)' }}
-                  href="#"
-                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-white/5 text-muted-foreground transition-colors backdrop-blur-xl"
-                  style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
-                >
-                  <Icon size={20} />
-                </motion.a>
-              ))}
+              <motion.a
+                whileHover={{ y: -3, color: 'var(--primary)' }}
+                href="https://www.linkedin.com/company/viesa-automations/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 flex items-center justify-center rounded-xl border border-white/5 text-muted-foreground transition-colors backdrop-blur-xl"
+                style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
+              >
+                <Linkedin size={20} />
+              </motion.a>
+              <motion.a
+                whileHover={{ y: -3, color: 'var(--primary)' }}
+                href="https://www.instagram.com/viesa.automations?igsh=dWp1YnZhdXR4em4y"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 flex items-center justify-center rounded-xl border border-white/5 text-muted-foreground transition-colors backdrop-blur-xl"
+                style={{ backgroundColor: 'color-mix(in oklab, var(--card) 60%, transparent)' }}
+              >
+                <Instagram size={20} />
+              </motion.a>
             </div>
           </div>
 
@@ -60,7 +69,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
- 
+
           {/* Company */}
           <div>
             <h4 className="font-display font-bold text-lg mb-8 tracking-tight">
@@ -76,7 +85,7 @@ export function Footer() {
               ))}
             </ul>
           </div>
- 
+
           {/* Contact */}
           <div>
             <h4 className="font-display font-bold text-lg mb-8 tracking-tight">
@@ -101,8 +110,8 @@ export function Footer() {
                 >
                   <Phone size={18} className="text-primary" />
                 </div>
-                <a href="tel:+31612345678" className="text-muted-foreground group-hover:text-white transition-colors font-sans">
-                  +31 6 12 34 56 78
+                <a href="tel:+31683052875" className="text-muted-foreground group-hover:text-white transition-colors font-sans">
+                  +31 6 83 05 28 75
                 </a>
               </li>
               <li className="flex items-start gap-4">

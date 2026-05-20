@@ -25,11 +25,39 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   const supabase = createClient();
 
   useEffect(() => {
-    // Load locale from localStorage if available
-    const savedLocale = localStorage.getItem('viesa_locale');
-    if (savedLocale) {
-      setLocale(savedLocale);
-    }
+    const initLocale = async () => {
+      // 1. Check if user already manually selected a language
+      const savedLocale = localStorage.getItem('viesa_locale');
+      if (savedLocale) {
+        setLocale(savedLocale);
+        return;
+      }
+
+      try {
+        // 2. Fetch supported languages from database
+        const { data: supportedLangs } = await supabase.from('languages').select('code');
+        let validCodes = supportedLangs?.map((l: any) => l.code.toLowerCase());
+        
+        if (!validCodes || validCodes.length === 0) {
+          validCodes = ['nl', 'en'];
+        }
+
+        // 3. Detect browser language (e.g., "en-US" -> "en")
+        const browserLang = navigator.language.split('-')[0].toLowerCase();
+
+        // 4. Set locale if supported, otherwise fallback to default
+        if (validCodes.includes(browserLang)) {
+          setLocale(browserLang);
+        } else {
+          setLocale('en'); // Standard global fallback
+        }
+      } catch (error) {
+        console.error('Error auto-detecting language:', error);
+        setLocale('en');
+      }
+    };
+
+    initLocale();
   }, []);
 
   useEffect(() => {

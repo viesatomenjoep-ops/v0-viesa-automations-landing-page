@@ -24,7 +24,7 @@ export function Navigation() {
     { code: 'es', name: 'Español' },
   ];
 
-  const currentLang = languages.find(l => l.code === locale) || languages[0];
+  const currentLang = languages.find(l => l.code.toLowerCase() === locale.toLowerCase()) || languages[0];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,13 +100,13 @@ export function Navigation() {
                           setLocale(lang.code);
                           setLangOpen(false);
                         }}
-                        className={`w-full flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all ${currentLang.code === lang.code
+                        className={`w-full flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all ${currentLang.code.toLowerCase() === lang.code.toLowerCase()
                           ? 'bg-primary text-white font-bold'
                           : 'text-slate-600 hover:bg-slate-50 hover:text-primary'
                           }`}
                       >
                         <span>{lang.name}</span>
-                        {currentLang.code === lang.code && (
+                        {currentLang.code.toLowerCase() === lang.code.toLowerCase() && (
                           <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                         )}
                       </button>
@@ -164,7 +164,7 @@ export function Navigation() {
                       setLocale(lang.code);
                       setIsOpen(false);
                     }}
-                    className={`flex flex-col items-center gap-1 p-3 rounded-xl border transition-all ${currentLang.code === lang.code
+                    className={`flex flex-col items-center gap-1 p-3 rounded-xl border transition-all ${currentLang.code.toLowerCase() === lang.code.toLowerCase()
                       ? 'bg-primary border-primary text-white shadow-lg shadow-primary/20'
                       : 'bg-slate-50 border-transparent text-slate-500'
                       }`}
