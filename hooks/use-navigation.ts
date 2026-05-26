@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { isPortfolioUrl, PORTFOLIO_ENABLED } from '@/lib/feature-flags';
 import { useTranslation } from './use-translation';
 
 export interface NavItem {
@@ -49,7 +50,11 @@ export function useNavigation(menuType: string) {
         label: item.translations.find((t: any) => t.language_id === langId)?.label || '',
       }));
 
-      setItems(formatted);
+      const visibleItems = PORTFOLIO_ENABLED
+        ? formatted
+        : formatted.filter((item) => !isPortfolioUrl(item.url));
+
+      setItems(visibleItems);
     } catch (error) {
       console.error(`Failed to fetch navigation items for ${menuType}:`, error);
     } finally {

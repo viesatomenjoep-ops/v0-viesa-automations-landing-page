@@ -1,11 +1,25 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { PORTFOLIO_ENABLED } from '@/lib/feature-flags'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = await createClient()
   const baseUrl = 'https://viesa-automations.nl'
 
-  // Fetch all portfolio items for dynamic routes
+  const staticUrls: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+  ]
+
+  if (!PORTFOLIO_ENABLED) {
+    return staticUrls
+  }
+
+  const supabase = await createClient()
+
   const { data: portfolioItems } = await supabase
     .from('portfolio_items')
     .select('id, updated_at')
@@ -18,12 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   return [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
+    ...staticUrls,
     {
       url: `${baseUrl}/portfolio`,
       lastModified: new Date(),

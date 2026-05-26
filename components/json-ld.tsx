@@ -1,3 +1,5 @@
+import { PORTFOLIO_ENABLED } from '@/lib/feature-flags';
+
 export function JsonLd() {
   const localBusinessSchema = {
     "@context": "https://schema.org",
@@ -27,11 +29,13 @@ export function JsonLd() {
     "@type": "WebSite",
     "name": "VIESA Automations",
     "url": "https://viesa-automations.nl",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://viesa-automations.nl/portfolio?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    ...(PORTFOLIO_ENABLED && {
+      potentialAction: {
+        "@type": "SearchAction",
+        "target": "https://viesa-automations.nl/portfolio?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    }),
   };
 
   return (

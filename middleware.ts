@@ -1,7 +1,12 @@
-import { type NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import { isPortfolioPath, PORTFOLIO_ENABLED } from '@/lib/feature-flags';
 
 export async function middleware(request: NextRequest) {
+  if (!PORTFOLIO_ENABLED && isPortfolioPath(request.nextUrl.pathname)) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
   return await updateSession(request);
 }
 
