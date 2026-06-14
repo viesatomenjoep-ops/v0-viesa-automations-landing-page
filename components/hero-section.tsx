@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowRight, Play } from 'lucide-react';
 import Image from 'next/image';
@@ -13,6 +13,7 @@ export function HeroSection() {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
+  const prefersReducedMotion = useReducedMotion();
 
   // Parallax effects
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
@@ -27,9 +28,9 @@ export function HeroSection() {
     >
       {/* Dynamic Mesh Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-slate-100/50 rounded-full blur-[150px]" />
-        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-primary/10 rounded-full blur-[100px]" />
+        <div className="hidden md:block absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-3xl" />
+        <div className="hidden md:block absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-slate-100/50 rounded-full blur-3xl" />
+        <div className="hidden md:block absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-primary/10 rounded-full blur-3xl" />
 
         {/* Grainy Texture Overlay */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/noise.svg')]" />
@@ -112,7 +113,7 @@ export function HeroSection() {
 
                   {/* Animated Logo */}
                   <motion.div
-                    animate={{
+                    animate={prefersReducedMotion ? {} : {
                       y: [0, -10, 0],
                       rotate: [0, 2, -2, 0],
                       scale: [1, 1.05, 1]
@@ -142,14 +143,16 @@ export function HeroSection() {
               </div>
 
               {/* Glowing Cursor Overlay */}
-              <motion.div
-                animate={{
-                  x: [0, 100, 50, 0],
-                  y: [0, 50, 150, 0]
-                }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-1/2 left-1/2 w-48 h-48 bg-primary/10 rounded-full blur-[60px] pointer-events-none"
-              />
+              {!prefersReducedMotion && (
+                <motion.div
+                  animate={{
+                    x: [0, 100, 50, 0],
+                    y: [0, 50, 150, 0]
+                  }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute top-1/2 left-1/2 w-48 h-48 bg-primary/10 rounded-full blur-[60px] pointer-events-none"
+                />
+              )}
             </div>
           </motion.div>
 

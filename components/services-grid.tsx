@@ -183,8 +183,8 @@ export function ServicesGrid() {
   return (
     <section id="services" className="py-24 md:py-40 bg-white px-4 relative overflow-hidden">
       {/* Background Orbs */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="hidden md:block absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="hidden md:block absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -203,7 +203,17 @@ export function ServicesGrid() {
         </motion.div>
 
         {/* Bento Grid */}
-        {!isLoading && services.length > 0 && (
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-auto md:auto-rows-[240px] animate-pulse">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className={`bg-slate-100 rounded-3xl ${i === 0 ? 'md:col-span-2 md:row-span-2' : 'md:col-span-1 md:row-span-2'}`}
+                style={{ minHeight: '240px' }}
+              />
+            ))}
+          </div>
+        ) : services.length > 0 && (
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -257,7 +267,7 @@ export function ServicesGrid() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedService(null)}
-              className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
+              className="absolute inset-0 bg-slate-900/60 md:bg-slate-900/40 md:backdrop-blur-md"
             />
             
             {/* Modal Container */}

@@ -48,7 +48,7 @@ export function ProcessSection() {
   return (
     <section id="process" className="py-24 md:py-40 bg-slate-50 px-4 relative">
        {/* Background accent */}
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+       <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -67,8 +67,17 @@ export function ProcessSection() {
         </motion.div>
 
         {/* Steps */}
-        {!isLoading && steps.length > 0 && (
-          <motion.div 
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 animate-pulse">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="space-y-4">
+                <div className="w-14 h-14 bg-slate-200 rounded-full" />
+                <div className="h-48 bg-slate-200 rounded-3xl" />
+              </div>
+            ))}
+          </div>
+        ) : steps.length > 0 && (
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"

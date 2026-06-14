@@ -25,91 +25,66 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   const supabase = createClient();
 
   useEffect(() => {
-    const initLocale = async () => {
-      // 1. Check if user already manually selected a language
-      const savedLocale = localStorage.getItem('viesa_locale');
-      if (savedLocale) {
-        setLocale(savedLocale);
-        return;
-      }
-
-      try {
-        // 2. Fetch supported languages from database
-        const { data: supportedLangs } = await supabase.from('languages').select('code');
-        let validCodes = supportedLangs?.map((l: any) => l.code.toLowerCase());
-        
-        if (!validCodes || validCodes.length === 0) {
-          validCodes = ['nl', 'en'];
-        }
-
-        // 3. Detect browser language (e.g., "en-US" -> "en")
-        const browserLang = navigator.language.split('-')[0].toLowerCase();
-
-        // 4. Set locale if supported, otherwise fallback to default
-        if (validCodes.includes(browserLang)) {
-          setLocale(browserLang);
-        } else {
-          setLocale('en'); // Standard global fallback
-        }
-      } catch (error) {
-        console.error('Error auto-detecting language:', error);
-        setLocale('en');
-      }
-    };
-
-    initLocale();
+    const savedLocale = localStorage.getItem('viesa_locale');
+    if (savedLocale) {
+      setLocale(savedLocale);
+    } else {
+      const browserLang = navigator.language.split('-')[0].toLowerCase();
+      // Default to browser language; fetchTranslations will fall back to 'nl' if not found
+      setLocale(browserLang || 'nl');
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('viesa_locale', locale);
-    fetchTranslations();
+    fetchTranslations(locale);
   }, [locale]);
 
-  async function fetchTranslations() {
+  async function fetchTranslations(targetLocale: string) {
     setIsLoading(true);
     try {
-      // 1. Fetch the language ID for the current locale
-      const { data: languages, error: langError } = await supabase
+      // Single query: get language ID + all its translations in one round trip
+      const { data: langData, error: langError } = await supabase
         .from('languages')
-        .select('id')
-        .eq('code', locale)
-        .limit(1);
-      
-      if (langError) throw langError;
-      
-      const lang = languages && languages.length > 0 ? languages[0] : null;
-      if (!lang) {
-        console.warn(`Language not found for locale: ${locale}`);
-        return;
-      }
-      
-      setLanguageId(lang.id);
-
-      // 2. Fetch all translations for this language
-      const { data, error } = await supabase
-        .from('translations')
         .select(`
-          value,
-          content_key:content_keys (
-            key,
-            section:sections (
-              name
+          id,
+          translations (
+            value,
+            content_key:content_keys (
+              key,
+              section:sections (
+                name
+              )
             )
           )
         `)
-        .eq('language_id', lang.id);
+        .eq('code', targetLocale)
+        .limit(1)
+        .single();
 
-      if (error) throw error;
+      // If locale not found, retry with 'nl' fallback
+      if (langError || !langData) {
+        if (targetLocale !== 'nl') {
+          await fetchTranslations('nl');
+          return;
+        }
+        console.warn(`Language not found for locale: ${targetLocale}`);
+        setIsLoading(false);
+        return;
+      }
+
+      setLanguageId(langData.id);
 
       const transMap: Translations = {};
-      data?.forEach((item: any) => {
-        const sectionName = item.content_key.section.name;
-        const keyName = item.content_key.key;
-        
-        const fullKey = keyName.startsWith(`${sectionName}.`) 
-          ? keyName 
+      langData.translations?.forEach((item: any) => {
+        const sectionName = item.content_key?.section?.name;
+        const keyName = item.content_key?.key;
+        if (!sectionName || !keyName) return;
+
+        const fullKey = keyName.startsWith(`${sectionName}.`)
+          ? keyName
           : `${sectionName}.${keyName}`;
-          
+
         transMap[fullKey] = item.value;
       });
 

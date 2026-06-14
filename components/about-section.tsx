@@ -10,8 +10,8 @@ export function AboutSection() {
   return (
     <section id="over-ons" className="py-24 md:py-40 bg-white px-4 relative overflow-hidden">
       {/* Subtle decorative background elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="hidden md:block absolute top-0 right-0 w-1/3 h-1/3 bg-primary/5 blur-3xl rounded-full pointer-events-none" />
+      <div className="hidden md:block absolute bottom-0 left-0 w-1/4 h-1/4 bg-primary/5 blur-3xl rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -119,7 +119,7 @@ export function AboutSection() {
                 <div className="w-24 h-6 bg-slate-900 rounded-b-2xl absolute top-0 left-1/2 -translate-x-1/2 z-10" />
                 <div className="mt-8 space-y-6">
                   <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-                    <div className="w-6 h-6 bg-white/20 rounded-full animate-ping" />
+                    <div className="w-6 h-6 bg-white/20 rounded-full" />
                   </div>
                   <div className="space-y-2">
                     <div className="h-3 w-full bg-slate-900 rounded-full" />

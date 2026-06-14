@@ -83,7 +83,21 @@ export function USPSection() {
           {/* Right: Vertical Features List */}
           <div className="lg:w-7/12 flex flex-col">
             <div className="border-t border-slate-200">
-              {usps.map((usp, index) => {
+              {isLoading ? (
+                <div className="animate-pulse space-y-0">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="border-b border-slate-200 py-10 flex gap-6 items-start">
+                      <div className="w-16 h-16 bg-slate-200 rounded-2xl flex-shrink-0" />
+                      <div className="flex-1 space-y-3 pt-2">
+                        <div className="h-3 w-16 bg-slate-200 rounded-full" />
+                        <div className="h-6 w-48 bg-slate-200 rounded-full" />
+                        <div className="h-4 w-full bg-slate-100 rounded-full" />
+                        <div className="h-4 w-3/4 bg-slate-100 rounded-full" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : usps.map((usp, index) => {
                 const Icon = iconMap[usp.icon_name] || Award;
                 return (
                   <motion.div
