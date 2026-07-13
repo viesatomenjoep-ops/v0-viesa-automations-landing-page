@@ -27,7 +27,8 @@ export function USPSection() {
   }
 
   return (
-    <section 
+    <section
+      id="usp"
       className="py-24 md:py-32 bg-slate-50 px-4 relative overflow-hidden group"
       onMouseMove={handleMouseMove}
     >
